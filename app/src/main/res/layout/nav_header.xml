@@ -4,17 +4,27 @@
     android:layout_height="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:background="?attr/colorPrimary"
+        android:layout_height="150dp"
+        android:background="@color/colorPrimary"
         android:padding="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:orientation="vertical"
         android:gravity="bottom">
 
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="90dp"
+            android:src="@drawable/logo_medium"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My header title"
+            android:text="@string/app_title"
+            android:shadowRadius="3"
+            android:shadowDx="2"
+            android:shadowColor="@color/black"
+            android:textSize="17dp"
+            android:fontFamily="@font/michail"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     </LinearLayout>
