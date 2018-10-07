@@ -8,25 +8,71 @@
     android:background="@color/colorPrimary"
     tools:context="com.example.utente10.galileo.MainActivity">
 
-    <FrameLayout
+
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/white"
+            android:background="@color/colorPrimaryDark"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+
+
         <ImageView
-            android:layout_width="100pt"
-            android:layout_height="100pt"
-            android:layout_gravity="center_horizontal" />
+            android:layout_width="300dp"
+            android:layout_height="270dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_rect" />
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/michail"
+            android:gravity="center_horizontal"
+            android:shadowColor="@color/black"
+            android:shadowDx="10"
+            android:shadowDy="1"
+            android:shadowRadius="10"
+            android:text="@string/app_title"
+            android:textColor="@color/white"
+            android:textSize="35dp" />
+
+        <Button
+            android:id="@+id/btn_avvia"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            android:visibility="invisible"
-            app:headerLayout="@layout/nav_header"
-            app:menu="@menu/drawer_view" />
-</FrameLayout>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20pt"
+            android:width="150dp"
+            android:height="70dp"
+            android:background="@drawable/buttons"
+            android:fontFamily="@font/josefin"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowRadius="2"
+            android:text="@string/button_avvia"
+            android:textColor="@color/white" />
 
+
+    </LinearLayout>
+
+
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/nav_header"/>
 
 </android.support.v4.widget.DrawerLayout>
