@@ -58,25 +58,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*** Cambio colore status bar ***/
+        // Cambio colore status bar
         setStatusBarColor();
-        /*******************************/
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionbar = getSupportActionBar();
 
+        //Mostra pulsante menu in alto a sinistra
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
-
-
-
-
     }
 
+    /*** Gestione apertura menu ***/
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -96,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
+    /************************************************/
 
     /*** Cambia colore status bar ***/
     private void setStatusBarColor(){

@@ -16,7 +16,7 @@
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
         android:background="@color/colorPrimaryDark"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
+        android:theme="@style/ToolbarColoredBackArrow" />
 
     <android.support.v4.widget.DrawerLayout
         android:layout_width="match_parent"
