@@ -13,15 +13,11 @@
             android:name=".MainActivity"
             android:label="@string/app_title">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"  />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".CheckPosition"
-            android:exported="false"></service>
     </application>
 
 </manifest>
