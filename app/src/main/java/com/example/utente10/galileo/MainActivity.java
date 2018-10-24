@@ -2,6 +2,7 @@ package com.example.utente10.galileo;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -71,6 +73,19 @@ public class MainActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
+
+        Button btnAvvia = (Button)findViewById(R.id.btn_avvia);
+
+        btnAvvia.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     /*** Gestione apertura menu ***/
@@ -111,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     /********************************/
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
