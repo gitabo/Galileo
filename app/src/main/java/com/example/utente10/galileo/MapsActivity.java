@@ -3,6 +3,7 @@ package com.example.utente10.galileo;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.res.Configuration;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,13 +25,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
-    private ActionBar actionbar;
+    private android.support.v7.app.ActionBar actionbar;
+    private BottomNavigationView bottomNav;
 
 
     @Override
@@ -43,11 +44,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setStatusBarColor();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //((AppCompatActivity)this).setSupportActionBar(toolbar);
-        //actionbar = ((AppCompatActivity)this).getSupportActionBar();
+        setSupportActionBar(toolbar);
+        actionbar = getSupportActionBar();
+
+        bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
         //Mostra pulsante menu in alto a sinistra
-        //actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
@@ -102,12 +105,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
+                hideBottomNavigationView(bottomNav);
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
+                showBottomNavigationView(bottomNav);
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -150,5 +155,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    private void hideBottomNavigationView(BottomNavigationView view) {
+        view.animate().translationY(view.getHeight());
+    }
+
+    private void showBottomNavigationView(BottomNavigationView view) {
+        view.animate().translationY(0);
+    }
 
 }
