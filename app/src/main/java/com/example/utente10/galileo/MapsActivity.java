@@ -17,11 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -33,6 +37,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
+    private Marker markerExample;
 
 
     @Override
@@ -76,10 +81,50 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng duomo = new LatLng(43.7232871, 10.3958643);
+        markerExample = mMap.addMarker(new MarkerOptions().position(duomo).title("Duomo di Pisa"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(duomo));
+        //
+
+        //Gestione click sul marker
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override public boolean onMarkerClick(Marker marker) {
+                marker.showInfoWindow();
+                return true;
+                }
+        });
+        //
+
+        //Gestione infoWindow
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
+
+                LatLng latLng = marker.getPosition();
+
+                ImageView im = (ImageView) v.findViewById(R.id.imageView1);
+                TextView tv1 = (TextView) v.findViewById(R.id.textView1);
+                TextView tv2 = (TextView) v.findViewById(R.id.textView2);
+                marker.setSnippet("Descrizione Descrizione Descrizione Descrizione Descrizione ");
+                String title = marker.getTitle();
+                String informations = marker.getSnippet();
+
+                tv1.setText(title);
+                tv2.setText(informations);
+                return v;
+            }
+        });
+        //
     }
+
+
 
 
     /*** Cambia colore status bar ***/
