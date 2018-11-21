@@ -2,7 +2,9 @@ package com.example.utente10.galileo;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -12,18 +14,23 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,6 +45,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
     private Marker markerExample;
+    private double distance;
 
 
     @Override
@@ -60,6 +68,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
 
+        BottomNavigationItemView navDistance = (BottomNavigationItemView) findViewById(R.id.nav_distance);
+
+        navDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -79,12 +96,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setPadding(0,0,0, 150);
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker and move the camera
         LatLng duomo = new LatLng(43.7232871, 10.3958643);
         markerExample = mMap.addMarker(new MarkerOptions().position(duomo).title("Duomo di Pisa"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(duomo));
+        markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(duomo, 12.0f));
+        UiSettings uiSettings = mMap.getUiSettings();
+        uiSettings.setZoomGesturesEnabled(true);
+        uiSettings.setZoomControlsEnabled(true);
         //
+
 
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -127,7 +150,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    /*** Cambia colore status bar ***/
+    //Cambia colore status bar
     private void setStatusBarColor(){
 
         Window window = this.getWindow();
@@ -142,9 +165,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDarker));
 
     }
-    /********************************/
+    //
 
-    /*** Gestione apertura menu ***/
+    // Gestione apertura menu hamburger
     private void setupDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
 
@@ -166,7 +189,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-    /************************************************/
+    //
+
+    // Mostra menu distanze
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.distance_menu, popup.getMenu());
+        popup.show();
+    }
+    //
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

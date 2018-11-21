@@ -8,9 +8,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+
     tools:context="com.example.utente10.galileo.MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <!-- <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -23,14 +24,16 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/drawer_layout">
+-->
+
 
     <LinearLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
+        android:orientation="vertical"
+        android:layout_marginTop="50dp"
+        android:baselineAligned="false">
 
         <ImageView
             android:layout_width="300dp"
@@ -53,6 +56,19 @@
             android:textColor="@color/white"
             android:textSize="35dp" />
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:indeterminate="true"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/white"
+            />
+
+
+
+   <!--
         <Button
             android:id="@+id/btn_avvia"
             android:layout_width="wrap_content"
@@ -68,11 +84,16 @@
             android:shadowRadius="2"
             android:text="@string/button_avvia"
             android:textColor="@color/white" />
-
-
+    -->
     </LinearLayout>
 
-    <android.support.design.widget.NavigationView
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pisa_skyline"
+        android:layout_gravity="end|bottom" />
+
+   <!-- <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -82,5 +103,7 @@
         app:menu="@menu/drawer_view" />
 
     </android.support.v4.widget.DrawerLayout>
-
+-->
 </android.support.design.widget.CoordinatorLayout>
+
+
