@@ -44,6 +44,21 @@
 
     </android.support.v4.widget.DrawerLayout>
 
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/info_nav"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
+        app:menu="@menu/place_menu"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        android:visibility="gone"/>
+
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
@@ -53,5 +68,6 @@
         android:background="@color/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"/>
+
 
 </RelativeLayout>

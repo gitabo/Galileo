@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
+    private BottomNavigationView infoNav;
     private Marker markerExample;
     private double distance;
 
@@ -61,6 +63,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionbar = getSupportActionBar();
 
         bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
+
 
         //Mostra pulsante menu in alto a sinistra
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -69,11 +73,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupDrawer();
 
         BottomNavigationItemView navDistance = (BottomNavigationItemView) findViewById(R.id.nav_distance);
+        BottomNavigationItemView navClose = (BottomNavigationItemView) findViewById(R.id.nav_close);
+
+        //Visualizza testo sotto le icone nel banner che appare onInfoWindowClick
+        BottomNavigationViewHelper.disableShiftMode(infoNav);
 
         navDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopup(v);
+            }
+        });
+
+        navClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                infoNav.setVisibility(View.GONE);
             }
         });
 
@@ -145,6 +160,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
         //
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                infoNav.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mMap.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
+            @Override
+            public void onInfoWindowClose(Marker marker) {
+                infoNav.setVisibility(View.GONE);
+            }
+        });
+
+
+
     }
 
 

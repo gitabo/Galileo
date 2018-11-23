@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/toplayout">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:src="@drawable/duomo" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duomo di Pisa"
+            android:textSize="20dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/lato"
+            app:layout_constraintLeft_toRightOf="@+id/imageView1" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="Descrizione Descrizione Descrizione Descrizione Descrizione"
+            android:fontFamily="@font/lato"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

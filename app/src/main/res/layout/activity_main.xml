@@ -8,8 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-
     tools:context="com.example.utente10.galileo.MainActivity">
+
 
     <!-- <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -25,7 +25,6 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/drawer_layout">
 -->
-
 
     <LinearLayout
         android:id="@+id/drawer_layout"
@@ -63,8 +62,7 @@
             android:indeterminate="true"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/white"
-            />
+            android:indeterminateTint="@color/white" />
 
 
 
@@ -88,10 +86,11 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="70dp"
         android:src="@drawable/pisa_skyline"
-        android:layout_gravity="end|bottom" />
+        android:layout_gravity="bottom|center_horizontal" />
+
 
    <!-- <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

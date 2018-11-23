@@ -13,9 +13,10 @@
         android:title="Lista luoghi" />
 
     <item
-        android:id="@+id/nav_notifications"
+        android:id="@+id/nav_visited"
         android:icon="@drawable/ic_location_city_black_24dp"
         android:title="Luoghi visitati" />
+
 
 
 </menu>
