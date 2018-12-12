@@ -2,6 +2,8 @@ package com.example.utente10.galileo;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -28,14 +30,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.example.utente10.galileo.service.TrackerService;
+
 
 public class MainActivity extends AppCompatActivity {
 
-//    private Toolbar toolbar;
+    //    private Toolbar toolbar;
 //    private ActionBarDrawerToggle mDrawerToggle;
 //    private DrawerLayout mDrawerLayout;
 //    private android.support.v7.app.ActionBar actionbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
                         startActivity(i);
                         finish();
                     }
@@ -83,9 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     // Cambia colore status bar
-    private void setStatusBarColor(){
+    private void setStatusBarColor() {
 
         Window window = this.getWindow();
 
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDarker));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDarker));
 
     }
     //

@@ -31,6 +31,9 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <service android:name=".service.TrackerService" android:enabled="true" />
+        <receiver android:name=".service.RestarterBroadcastReceiver"
+            android:enabled="true" android:exported="true" android:label="ServiceRestarter"/>
     </application>
 
 </manifest>
