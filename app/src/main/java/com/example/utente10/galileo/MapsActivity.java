@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.example.utente10.galileo.bean.Macroarea;
 import com.example.utente10.galileo.service.TrackerService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import kotlin.SinceKotlin;
 
 
@@ -132,10 +135,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setPadding(0,0,0, 150);
 
         // Add a marker and move the camera
-        LatLng duomo = new LatLng(43.7232871, 10.3958643);
-        markerExample = mMap.addMarker(new MarkerOptions().position(duomo).title("Duomo di Pisa"));
-        markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(duomo, 12.0f));
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).findAll();
+
+        LatLng pos = null;
+        for (Macroarea m : macroareas) {
+            pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
+            markerExample = mMap.addMarker(new MarkerOptions().position(pos).title("Duomo di Pisa"));
+            markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12.0f));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
         uiSettings.setZoomControlsEnabled(true);

@@ -5,8 +5,10 @@ import io.realm.RealmModel
 import io.realm.annotations.RealmClass
 
 @RealmClass
-data class Landmark(val name: String,
-                    val beacon: Beacon,
-                    var description: String,
-                    val videos: RealmList<String>? = null,
-                    val photos: RealmList<String>? = null) : RealmModel
+open class Landmark : RealmModel {
+    var name: String? = null
+    var beacon: Beacon? = null
+    var description: String? = null
+    var videos: RealmList<String>? = null
+    var photos: RealmList<String>? = null
+}

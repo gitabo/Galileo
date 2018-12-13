@@ -1,12 +1,14 @@
 package com.example.utente10.galileo.bean
 
 import io.realm.RealmList
-import io.realm.RealmModel
 import com.google.android.gms.maps.model.LatLng
+import io.realm.RealmModel
 import io.realm.annotations.RealmClass
 
 @RealmClass
-data class Macroarea(val name: String,
-                     val center: LatLng,
-                     val radius: Float,
-                     val landmarks: RealmList<Landmark>) : RealmModel
+open class Macroarea : RealmModel {
+    var name: String? = null
+    var center: Coordinates? = null
+    var radius: Double? = null
+    var landmarks: RealmList<Landmark>? = null
+}

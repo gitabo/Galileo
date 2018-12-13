@@ -7,6 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.utente10.galileo.backend.BackendKt;
+import com.example.utente10.galileo.backend.MacroareasResponse;
+import com.example.utente10.galileo.bean.Macroarea;
+import com.google.gson.Gson;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +31,23 @@ public class MainActivity extends AppCompatActivity {
         // Cambio colore status bar
         setStatusBarColor();
 
+
+        Realm realm = Realm.getDefaultInstance();
+
+        //TODO: check if the db versione is newer
+        if (realm.where(Macroarea.class).findAll().size() == 0) {
+            BackendKt.getMacroareas(getApplication(),
+                    response -> {
+                        Gson gson = new Gson();
+                        MacroareasResponse macroareasResponse = gson.fromJson(response, MacroareasResponse.class);
+                        //Inserting data in db
+                        realm.beginTransaction();
+                        realm.insertOrUpdate(macroareasResponse.getMacroareas());
+                        realm.commitTransaction();
+                    },
+                    error -> {
+                    });
+        }
 
         // Dopo 2 secondi reindirizzamento a MapsActivity
         new android.os.Handler().postDelayed(
