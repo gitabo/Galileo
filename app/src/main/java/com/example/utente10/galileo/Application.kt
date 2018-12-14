@@ -19,6 +19,6 @@ class Application : android.app.Application() {
         val config = RealmConfiguration.Builder().name("Galileo.realm").build()
         Realm.setDefaultConfiguration(config)
         //Kontact.io setting
-        //KontaktSDK.initialize("API_KEY")
+        KontaktSDK.initialize("UTHakQLmDPxzEBgEsnqjOylelqjPQbTv")
     }
 }

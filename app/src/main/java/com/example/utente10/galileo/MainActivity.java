@@ -59,13 +59,6 @@ public class MainActivity extends AppCompatActivity {
                     error -> {
                     });
         }
-
-        /*ENABLING BLUETOOTH if is needed
-        BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
-        if (bluetooth.disable()){
-            bluetooth.enable();
-        }*/
-
         requestPermission();
 
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
