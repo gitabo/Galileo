@@ -1,9 +1,13 @@
 package com.example.utente10.galileo;
 
+import android.Manifest;
 import android.app.ActivityManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 //    private android.support.v7.app.ActionBar actionbar;
 
     Intent mServiceIntent;
+    private static final int FINE_LOCATION_REQUEST = 1;
     private TrackerService tracker;
     public static boolean serviceEnabled = true;
 
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         Realm realm = Realm.getDefaultInstance();
 
-        //TODO: check if the db versione is newer
+        //TODO: check db version
         if (realm.where(Macroarea.class).findAll().size() == 0) {
             BackendKt.getMacroareas(getApplication(),
                     response -> {
@@ -55,25 +60,13 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
 
-        // Dopo 2 secondi reindirizzamento a MapsActivity
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        Intent i = new Intent(getApplicationContext(), MapsActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                },
-                2000);
+        /*ENABLING BLUETOOTH if is needed
+        BluetoothAdapter bluetooth = BluetoothAdapter.getDefaultAdapter();
+        if (bluetooth.disable()){
+            bluetooth.enable();
+        }*/
 
-        //Tracker Activation
-        tracker = new TrackerService();
-        mServiceIntent = new Intent(this, tracker.getClass());
-        if (serviceEnabled && !isTrackerServiceRunning()) {
-            startService(mServiceIntent);
-        }
-        //
-
+        requestPermission();
 
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -99,6 +92,60 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                //TODO: dire all'utente che deve abilitare la posizione se vuole utilizzare l'app
+                //finish();
+            } else {
+                // Permission is not granted
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        FINE_LOCATION_REQUEST);
+            }
+        } else {
+            //Tracker Activation
+            tracker = new TrackerService();
+            mServiceIntent = new Intent(this, tracker.getClass());
+            if (serviceEnabled && !isTrackerServiceRunning()) {
+                startService(mServiceIntent);
+            }
+
+            // Dopo 2 secondi reindirizzamento a MapsActivity
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            Intent i = new Intent(getApplicationContext(), MapsActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    },
+                    2000);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case FINE_LOCATION_REQUEST: {
+                /* If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }*/
+                requestPermission();
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
 
     private boolean isTrackerServiceRunning() {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -110,13 +157,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         return false;
     }
-
-    /*@Override
-    protected void onDestroy() {
-        if (mServiceIntent != null)
-            stopService(mServiceIntent);
-        super.onDestroy();
-    }*/
 
     // Cambia colore status bar
     private void setStatusBarColor() {
