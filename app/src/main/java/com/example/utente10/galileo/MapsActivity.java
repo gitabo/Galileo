@@ -1,8 +1,5 @@
 package com.example.utente10.galileo;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
@@ -22,7 +19,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.utente10.galileo.bean.Macroarea;
-import com.example.utente10.galileo.service.TrackerService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -49,10 +45,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private BottomNavigationView infoNav;
     private Marker markerExample;
     private double distance;
-
-    Intent mServiceIntent;
-    private TrackerService tracker;
-    public static boolean serviceEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,28 +88,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        //Tracker Activation
-        tracker = new TrackerService();
-        mServiceIntent = new Intent(this, tracker.getClass());
-        if (serviceEnabled && !isTrackerServiceRunning()) {
-            startService(mServiceIntent);
-        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    private boolean isTrackerServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        if (manager != null)
-            if (manager.getRunningServices(Integer.MAX_VALUE) != null)
-                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-                    if (TrackerService.class.getName().equals(service.service.getClassName()))
-                        return true;
-                }
-        return false;
     }
 
     /**
@@ -297,13 +273,5 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showBottomNavigationView(BottomNavigationView view) {
         view.animate().translationY(0);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mServiceIntent != null)
-        if (mServiceIntent != null)
-            stopService(mServiceIntent);
-        super.onDestroy();
     }
 }

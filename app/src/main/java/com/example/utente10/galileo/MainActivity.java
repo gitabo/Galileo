@@ -1,5 +1,7 @@
 package com.example.utente10.galileo;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -10,10 +12,10 @@ import android.view.WindowManager;
 import com.example.utente10.galileo.backend.BackendKt;
 import com.example.utente10.galileo.backend.MacroareasResponse;
 import com.example.utente10.galileo.bean.Macroarea;
+import com.example.utente10.galileo.service.TrackerService;
 import com.google.gson.Gson;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 //    private ActionBarDrawerToggle mDrawerToggle;
 //    private DrawerLayout mDrawerLayout;
 //    private android.support.v7.app.ActionBar actionbar;
+
+    Intent mServiceIntent;
+    private TrackerService tracker;
+    public static boolean serviceEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 },
                 2000);
+
+        //Tracker Activation
+        tracker = new TrackerService();
+        mServiceIntent = new Intent(this, tracker.getClass());
+        if (serviceEnabled && !isTrackerServiceRunning()) {
+            startService(mServiceIntent);
+        }
         //
 
 
@@ -85,6 +98,25 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
     }
+
+
+    private boolean isTrackerServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (manager != null)
+            if (manager.getRunningServices(Integer.MAX_VALUE) != null)
+                for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+                    if (TrackerService.class.getName().equals(service.service.getClassName()))
+                        return true;
+                }
+        return false;
+    }
+
+    /*@Override
+    protected void onDestroy() {
+        if (mServiceIntent != null)
+            stopService(mServiceIntent);
+        super.onDestroy();
+    }*/
 
     // Cambia colore status bar
     private void setStatusBarColor() {
