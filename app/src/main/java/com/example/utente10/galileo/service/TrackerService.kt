@@ -11,7 +11,7 @@ import com.kontakt.sdk.android.common.profile.IBeaconRegion
 import com.kontakt.sdk.android.common.profile.IBeaconDevice
 import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleIBeaconListener
 import com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener
-
+import com.kontakt.sdk.android.ble.manager.listeners.simple.IBeaconSpaceListener
 
 
 class TrackerService : Service() {
@@ -23,7 +23,11 @@ class TrackerService : Service() {
     //Setting automatic restart after App is manually closed
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("TrackerService", "ON")
+
+        //TODO: scegliere quale listener fa al caso nostro
         proximityManager.setIBeaconListener(createIBeaconListener())
+        proximityManager.setSpaceListener(createIBeaconSpaceListener())
+
         beaconScanActivation()
         return START_STICKY
     }
@@ -42,10 +46,12 @@ class TrackerService : Service() {
 
         //ENABLING BLUETOOTH
         val bluetooth = BluetoothAdapter.getDefaultAdapter();
-        if (bluetooth.disable()){
+        if (!bluetooth.isEnabled){
             bluetooth.enable()
         }
-        proximityManager.connect { proximityManager.startScanning() }
+        proximityManager.connect {
+            proximityManager.startScanning()
+        }
     }
 
     private fun createIBeaconListener(): IBeaconListener {
@@ -54,6 +60,19 @@ class TrackerService : Service() {
                 Log.i("Found Beacon", "IBeacon discovered: " + ibeacon!!.toString())
                 //TODO: cosa faccio quando trovo un beacon
             }
+        }
+    }
+
+    private fun createIBeaconSpaceListener(): IBeaconSpaceListener {
+        return object : IBeaconSpaceListener() {
+            override fun onRegionEntered(region: IBeaconRegion?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onRegionAbandoned(region: IBeaconRegion?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
         }
     }
 }
