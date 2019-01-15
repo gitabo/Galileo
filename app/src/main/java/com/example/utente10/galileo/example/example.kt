@@ -27,7 +27,7 @@ val macroareasList: String = "{\n" +
         "          \"name\": \"Cattedrale di Pisa\",\n" +
         "          \"description\": \"\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"egfc\",\n" +
+        "            \"label\": \"mipj\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.7231051,\n" +
         "              \"longitude\": 10.3950923\n" +
