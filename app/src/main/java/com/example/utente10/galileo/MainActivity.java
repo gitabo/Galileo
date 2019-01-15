@@ -88,16 +88,16 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+            /*if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
                 //TODO: dire all'utente che deve abilitare la posizione se vuole utilizzare l'app
                 //finish();
-            } else {
+            } else {*/
                 // Permission is not granted
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         FINE_LOCATION_REQUEST);
-            }
+            //}
         } else {
             //Tracker Activation
             tracker = new TrackerService();
