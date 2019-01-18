@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
+    <!-- mettere al posto di questo button "mostra o non mostra ristoranti" -->
     <item
         android:id="@+id/nav_distance"
-        android:icon="@drawable/ic_my_location_black_24dp"
-        android:title="Distanza" />
+        android:icon="@drawable/ic_restaurant_black_24dp"
+        android:title="Mostra ristoranti" />
 
     <item
         android:id="@+id/nav_places"
         android:icon="@drawable/ic_place_black_24dp"
-        android:title="Lista luoghi" />
-
-    <item
-        android:id="@+id/nav_visited"
-        android:icon="@drawable/ic_location_city_black_24dp"
-        android:title="Luoghi visitati" />
-
-
+        android:title="Lista luoghi (macroaree)" />
 
 </menu>

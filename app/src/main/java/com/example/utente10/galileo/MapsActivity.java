@@ -123,7 +123,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12.0f));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
-        uiSettings.setZoomControlsEnabled(true);
         //
 
 
