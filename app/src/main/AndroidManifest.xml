@@ -2,15 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.utente10.galileo">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <!-- only bluetooth low energy
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--
+    only bluetooth low energy
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     -->
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".Application"
@@ -20,13 +21,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <service android:name="com.kontakt.sdk.android.ble.service.ProximityService" android:exported="false"/>
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/google_maps_key" />
+        <service
+            android:name="com.kontakt.sdk.android.ble.service.ProximityService"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_title">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"  />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -36,7 +43,12 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <service android:name=".service.TrackerService" android:enabled="true" />
+
+        <service
+            android:name=".service.TrackerService"
+            android:enabled="true" />
+
+        <activity android:name=".BeaconMapActivity"></activity>
     </application>
 
 </manifest>
