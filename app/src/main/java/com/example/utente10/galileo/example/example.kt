@@ -7,8 +7,8 @@ val macroareasList: String = "{\n" +
         "    {\n" +
         "      \"name\": \"Piazza dei Miracoli\",\n" +
         "      \"center\": {\n" +
-        "        \"latitude\": 43.7232252,\n" +
-        "        \"longitude\": 10.3950923\n" +
+        "        \"latitude\": 43.72335,\n" +
+        "        \"longitude\": 10.394709\n" +
         "      },\n" +
         "      \"radius\": 0.0004558555144,\n" +
         "      \"landmarks\": [\n" +

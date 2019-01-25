@@ -1,48 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mapcontainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BeaconMapActivity"
-    android:background="@color/colorPrimary">
+    tools:context=".BeaconMapActivity">
+
+
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/beacon_map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BeaconMapActivity" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/beacon_map_toolbar"
+        android:id="@+id/beacon_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        android:background="@color/colorPrimaryDark"
-        android:theme="@style/ToolbarColoredBackArrow"
-        app:title="Piazza dei Miracoli"/>
+        android:background="@color/colorPrimary"
+        android:theme="@style/ToolbarColoredBackArrow" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/piazza_dei_miracoli2"
-            android:scaleType="fitXY"
-            />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/galileo_marker"
-            android:layout_marginTop="250dp"
-            android:layout_marginRight="60dp"/>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/galileo_marker"
-            android:layout_marginTop="140dp"
-            android:layout_marginRight="30dp"/>
-
-    </RelativeLayout>
-
-    <!--  -->
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

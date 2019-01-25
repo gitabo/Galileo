@@ -48,7 +48,9 @@
             android:name=".service.TrackerService"
             android:enabled="true" />
 
-        <activity android:name=".BeaconMapActivity"></activity>
+        <activity
+            android:name=".BeaconMapActivity"
+            android:label="@string/title_activity_beacon_map"></activity>
     </application>
 
 </manifest>

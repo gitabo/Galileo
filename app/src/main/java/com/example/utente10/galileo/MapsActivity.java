@@ -1,5 +1,6 @@
 package com.example.utente10.galileo;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
@@ -117,7 +118,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng pos = null;
         for (Macroarea m : macroareas) {
             pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
-            markerExample = mMap.addMarker(new MarkerOptions().position(pos).title("Duomo di Pisa"));
+            markerExample = mMap.addMarker(new MarkerOptions().position(pos).title("Piazza dei Miracoli"));
             markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12.0f));
@@ -167,6 +168,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onInfoWindowClick(Marker marker) {
                 infoNav.setVisibility(View.VISIBLE);
+                //reindirizzamento provvisorio a BeaconMapActivity
+                Intent i = new Intent(getApplicationContext(), BeaconMapActivity.class);
+                startActivity(i);
             }
         });
 
