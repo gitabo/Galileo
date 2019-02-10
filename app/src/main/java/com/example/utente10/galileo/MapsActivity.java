@@ -1,8 +1,12 @@
 package com.example.utente10.galileo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.design.internal.BottomNavigationItemView;
+import android.graphics.Point;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -10,19 +14,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.utente10.galileo.bean.Macroarea;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -32,7 +38,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kotlin.SinceKotlin;
+
+import java.util.Vector;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -43,24 +50,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
-    private BottomNavigationView infoNav;
-    private Marker markerExample;
-    private double distance;
+    //private BottomNavigationView infoNav;
+    private Vector<Marker> markers;
+    private float distance;
+    private Macroarea macroarea = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-        // Cambio colore status bar
-        setStatusBarColor();
+        markers = new Vector<Marker>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionbar = getSupportActionBar();
 
         bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
+        //infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
 
 
         //Mostra pulsante menu in alto a sinistra
@@ -69,6 +76,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
 
+        /* TODO cancellare vecchio menu click infowindow
         BottomNavigationItemView navDistance = (BottomNavigationItemView) findViewById(R.id.nav_distance);
         BottomNavigationItemView navClose = (BottomNavigationItemView) findViewById(R.id.nav_close);
 
@@ -88,7 +96,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 infoNav.setVisibility(View.GONE);
             }
         });
-
+        */
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -96,6 +104,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+
 
     /**
      * Manipulates the map once available.
@@ -114,16 +124,47 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).findAll();
+        int i=0;
 
         LatLng pos = null;
         for (Macroarea m : macroareas) {
             pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
-            markerExample = mMap.addMarker(new MarkerOptions().position(pos).title("Piazza dei Miracoli"));
-            markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+            markers.add(mMap.addMarker(new MarkerOptions().position(pos).title(m.getName())));
+            markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+            i++;
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 12.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
+        //
+
+        //Check GPS position and nearest macroarea
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        //Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        //checkPosition(loc);
+
+        //Check GPS position and nearest macroarea on location changed
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                checkPosition(location);
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void onProviderEnabled(String provider) {
+                // TODO Auto-generated method stub
+            }
+            @Override
+            public void onStatusChanged(String provider, int status,
+                                        Bundle extras) {
+                // TODO Auto-generated method stub
+            }
+
+        });
         //
 
 
@@ -131,7 +172,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
             @Override public boolean onMarkerClick(Marker marker) {
-                marker.showInfoWindow();
+                showInformation(marker);
                 return true;
                 }
         });
@@ -147,63 +188,87 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public View getInfoContents(Marker marker) {
                 View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
+                LatLng pos = null;
 
-                LatLng latLng = marker.getPosition();
+                for (Macroarea m : macroareas) {
+                    pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
+                    if(marker.getPosition().equals(pos)){
+                        macroarea = m;
+                        break;
+                    }
+                }
 
-                ImageView im = (ImageView) v.findViewById(R.id.imageView1);
-                TextView tv1 = (TextView) v.findViewById(R.id.textView1);
-                TextView tv2 = (TextView) v.findViewById(R.id.textView2);
-                marker.setSnippet("Descrizione Descrizione Descrizione Descrizione Descrizione ");
-                String title = marker.getTitle();
-                String informations = marker.getSnippet();
+                ImageView im = (ImageView) v.findViewById(R.id.area_img);
+                TextView areaTitle = (TextView) v.findViewById(R.id.area_title);
+                TextView areaDescr = (TextView) v.findViewById(R.id.area_descr);
+                String title = macroarea.getName();
+                String informations = macroarea.getDescription();
+                //Visualizza nell'infowindow testo e desrizione del marker selezionato
+                areaTitle.setText(title);
+                areaDescr.setText(informations);
 
-                tv1.setText(title);
-                tv2.setText(informations);
                 return v;
             }
         });
         //
 
+
+
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                infoNav.setVisibility(View.VISIBLE);
-                //reindirizzamento provvisorio a BeaconMapActivity
+                //infoNav.setVisibility(View.VISIBLE);
+                LatLng pos = null;
+                //reindirizzamento a BeaconMapActivity
+                for (Macroarea m : macroareas) {
+                    pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
+                    if(marker.getPosition().equals(pos)){
+                        macroarea = m;
+                        break;
+                    }
+                }
                 Intent i = new Intent(getApplicationContext(), BeaconMapActivity.class);
+                i.putExtra("macroarea",macroarea.getName());
                 startActivity(i);
             }
         });
 
+        /*
         mMap.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
             @Override
             public void onInfoWindowClose(Marker marker) {
                 infoNav.setVisibility(View.GONE);
             }
         });
-
-
-
+        */
     }
 
+    private void checkPosition(Location l){
+        double gpsLat = l.getLatitude();
+        double gpsLng = l.getLongitude();
+        int i = 0;
 
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).findAll();
 
+        Location areaDest = new Location("areadest");
 
-    //Cambia colore status bar
-    private void setStatusBarColor(){
+        for (Macroarea m : macroareas) {
+            areaDest.setLatitude(m.getCenter().getLatitude());
+            areaDest.setLongitude(m.getCenter().getLongitude());
+            distance = l.distanceTo(areaDest);
 
-        Window window = this.getWindow();
-
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        // finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimaryDarker));
-
+            //Controllo se l'utente è a meno di 100 m da una macroarea
+            //il caso che l'utente sia a meno di 100 m di più macroaree non viene gestito
+            //perchè le macroaree sono abbastanza distanti tra loro
+            if(distance<100){
+                Toast.makeText(MapsActivity.this, "Rilevata area GalileoPisaTour", Toast.LENGTH_LONG).show();
+                showInformation(markers.get(i));
+                break;
+            }
+            i++;
+        }
     }
-    //
 
     // Gestione apertura menu hamburger
     private void setupDrawer() {
@@ -229,14 +294,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
     //
 
-    // Mostra menu distanze
-    public void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.distance_menu, popup.getMenu());
-        popup.show();
-    }
-    //
+   private void showInformation(Marker marker){
+        // Calcolo spostamento mappa per centrare l'infowindow
+       RelativeLayout mapContainer = (RelativeLayout) findViewById(R.id.mapcontainer);
+       int container_height = mapContainer.getHeight();
+
+       Projection projection = mMap.getProjection();
+
+       LatLng markerLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+       Point markerScreenPosition = projection.toScreenLocation(markerLatLng);
+       Point pointHalfScreenAbove = new Point(markerScreenPosition.x, markerScreenPosition.y - (container_height / 2));
+
+       LatLng aboveMarkerLatLng = projection.fromScreenLocation(pointHalfScreenAbove);
+       //
+
+       marker.showInfoWindow();
+       CameraUpdate center = CameraUpdateFactory.newLatLng(aboveMarkerLatLng);
+       mMap.moveCamera(center);
+   }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

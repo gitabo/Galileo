@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.utente10.galileo.bean.Beacon;
+import com.example.utente10.galileo.bean.Landmark;
 import com.example.utente10.galileo.bean.Macroarea;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,14 +27,20 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
-    private Marker markerExample;
+    private Marker beaconMarker;
+    private Bundle areaData;
+    private String areaName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_map);
 
+        areaData = getIntent().getExtras();
+        areaName = areaData.getString("macroarea");
+
         toolbar = (Toolbar) findViewById(R.id.beacon_toolbar);
+        toolbar.setTitle(areaName);
         setSupportActionBar(toolbar);
         actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -61,13 +68,19 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Beacon> beacons = realm.where(Beacon.class).findAll();
+        // Query macroarea selezionata
+        RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).equalTo("name",areaName).findAll();
+
+        // Memorizzazione nell'array landmarks dei Beacon della macroarea
+
 
         LatLng pos = null;
-        for (Beacon b : beacons) {
-            pos = new LatLng(b.getCoordinates().getLatitude(), b.getCoordinates().getLongitude());
-            markerExample = mMap.addMarker(new MarkerOptions().position(pos).title("Esempio"));
-            markerExample.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+        for(Macroarea m : macroareas) {
+            for (Landmark l : m.getLandmarks()) {
+                pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+                beaconMarker = mMap.addMarker(new MarkerOptions().position(pos).title(l.getName()));
+                beaconMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+            }
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
         UiSettings uiSettings = mMap.getUiSettings();

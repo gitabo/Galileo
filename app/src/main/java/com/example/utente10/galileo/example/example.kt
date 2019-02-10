@@ -7,22 +7,12 @@ val macroareasList: String = "{\n" +
         "    {\n" +
         "      \"name\": \"Piazza dei Miracoli\",\n" +
         "      \"center\": {\n" +
-        "        \"latitude\": 43.72335,\n" +
-        "        \"longitude\": 10.394709\n" +
+        "        \"latitude\": 43.7227764,\n" +
+        "        \"longitude\": 10.3949551\n" +
         "      },\n" +
         "      \"radius\": 0.0004558555144,\n" +
+        "      \"description\": \"La piazza del Duomo è il centro artistico e turistico più importante di Pisa. Annoverata fra i Patrimoni dell'Umanità dall'UNESCO dal 1987, vi si possono ammirare i monumenti che formano il centro della vita religiosa cittadina, detti miracoli (da Gabriele d'Annunzio del 1910) per la loro bellezza e originalità: la Cattedrale, il Battistero, il Campo Santo e il Campanile. Da ciò deriva il nome popolare di piazza dei Miracoli diffusosi poi nel dopoguerra, era del turismo di massa.\",\n" +
         "      \"landmarks\": [\n" +
-        "        {\n" +
-        "          \"name\": \"Torre di Pisa\",\n" +
-        "          \"description\": \"\",\n" +
-        "          \"beacon\": {\n" +
-        "            \"label\": \"mgvd\",\n" +
-        "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.7229559,\n" +
-        "              \"longitude\": 10.394403\n" +
-        "            }\n" +
-        "          }\n" +
-        "        },\n" +
         "        {\n" +
         "          \"name\": \"Cattedrale di Pisa\",\n" +
         "          \"description\": \"\",\n" +
@@ -42,6 +32,17 @@ val macroareasList: String = "{\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.723309,\n" +
         "              \"longitude\": 10.394162\n" +
+        "            }\n" +
+        "          }\n" +
+        "        },\n" +
+        "        {\n" +
+        "          \"name\": \"Torre di Pisa\",\n" +
+        "          \"description\": \"\",\n" +
+        "          \"beacon\": {\n" +
+        "            \"label\": \"mgvd\",\n" +
+        "            \"coordinates\": {\n" +
+        "              \"latitude\": 43.722971, \n" +
+        "              \"longitude\": 10.3966341\n" +
         "            }\n" +
         "          }\n" +
         "        }\n" +
