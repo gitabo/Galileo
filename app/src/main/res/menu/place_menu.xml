@@ -8,9 +8,9 @@
         android:showAsAction="always|withText" />
 
     <item
-        android:id="@+id/nav_place_gallery"
+        android:id="@+id/nav_img"
         android:icon="@drawable/ic_photo_library_black_24dp"
-        android:title="Galleria"
+        android:title="Foto"
         android:showAsAction="always|withText" />
 
     <item
@@ -19,8 +19,5 @@
         android:title="Video"
         android:showAsAction="always|withText" />
 
-    <item
-        android:id="@+id/nav_close"
-        android:icon="@drawable/ic_close_black_24dp" />
 
 </menu>

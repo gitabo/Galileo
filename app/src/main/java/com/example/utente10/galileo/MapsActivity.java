@@ -50,7 +50,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
-    //private BottomNavigationView infoNav;
     private Vector<Marker> markers;
     private float distance;
     private Macroarea macroarea = null;
@@ -67,8 +66,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         actionbar = getSupportActionBar();
 
         bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        //infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
-
 
         //Mostra pulsante menu in alto a sinistra
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -77,11 +74,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupDrawer();
 
         /* TODO cancellare vecchio menu click infowindow
-        BottomNavigationItemView navDistance = (BottomNavigationItemView) findViewById(R.id.nav_distance);
-        BottomNavigationItemView navClose = (BottomNavigationItemView) findViewById(R.id.nav_close);
 
-        //Visualizza testo sotto le icone nel banner che appare onInfoWindowClick
-        BottomNavigationViewHelper.disableShiftMode(infoNav);
+
+
 
         navDistance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,14 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        navClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                infoNav.setVisibility(View.GONE);
-            }
-        });
-        */
-
+       */
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -198,9 +186,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
 
-                ImageView im = (ImageView) v.findViewById(R.id.area_img);
-                TextView areaTitle = (TextView) v.findViewById(R.id.area_title);
-                TextView areaDescr = (TextView) v.findViewById(R.id.area_descr);
+                ImageView im = (ImageView) v.findViewById(R.id.place_img);
+                TextView areaTitle = (TextView) v.findViewById(R.id.place_title);
+                TextView areaDescr = (TextView) v.findViewById(R.id.place_descr);
                 String title = macroarea.getName();
                 String informations = macroarea.getDescription();
                 //Visualizza nell'infowindow testo e desrizione del marker selezionato
@@ -233,14 +221,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        /*
-        mMap.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
-            @Override
-            public void onInfoWindowClose(Marker marker) {
-                infoNav.setVisibility(View.GONE);
-            }
-        });
-        */
     }
 
     private void checkPosition(Location l){
