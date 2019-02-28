@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.utente10.galileo.bean.Beacon;
 import com.example.utente10.galileo.bean.Landmark;
 import com.example.utente10.galileo.bean.Macroarea;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -24,11 +25,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -40,6 +45,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private String areaName;
     private BottomNavigationView infoNav;
     private Landmark landmark;
+    private List<Marker> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,8 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
         infoNav.setVisibility(View.GONE);
+
+        markers = new ArrayList<Marker>();
         //infoNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
         //infoNav.setSelectedItemId(R.id.info_nav);
 
@@ -86,6 +94,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         mMap.setPadding(0,0,0, 150);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
+        int i = 0;
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
         // Query macroarea selezionata
@@ -98,11 +107,24 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         for(Macroarea m : macroareas) {
             for (Landmark l : m.getLandmarks()) {
                 pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                beaconMarker = mMap.addMarker(new MarkerOptions().position(pos).title(l.getName()));
-                beaconMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+                markers.add(mMap.addMarker(new MarkerOptions().position(pos).title(l.getName())));
+                markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+                i++;
             }
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
+
+        //Center all markers in the map
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = 40; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cu);
+        //
+
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(false);
 

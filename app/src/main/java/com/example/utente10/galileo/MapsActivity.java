@@ -33,13 +33,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -50,7 +52,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
-    private Vector<Marker> markers;
+    private List<Marker> markers;
     private float distance;
     private Macroarea macroarea = null;
 
@@ -59,13 +61,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        markers = new Vector<Marker>();
+        markers = new ArrayList<Marker>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionbar = getSupportActionBar();
 
-        bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        //bottomNav = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
         //Mostra pulsante menu in alto a sinistra
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -108,6 +110,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setPadding(0,0,0, 150);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
@@ -121,7 +124,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
             i++;
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = 0; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        googleMap.animateCamera(cu);
+
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
         //
