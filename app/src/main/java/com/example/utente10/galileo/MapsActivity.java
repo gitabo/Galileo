@@ -14,10 +14,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,8 +56,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private android.support.v7.app.ActionBar actionbar;
     private BottomNavigationView bottomNav;
     private List<Marker> markers;
+    private Marker userPos;
     private float distance;
     private Macroarea macroarea = null;
+
 
 
     @Override
@@ -62,6 +67,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         markers = new ArrayList<Marker>();
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,19 +81,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         setupDrawer();
 
-        /* TODO cancellare vecchio menu click infowindow
+        Button closeBtn = (Button) findViewById(R.id.close);
+        RelativeLayout tutorialBox = (RelativeLayout) findViewById(R.id.tutorial_box);
 
-
-
-
-        navDistance.setOnClickListener(new View.OnClickListener() {
+        closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup(v);
+                tutorialBox.setVisibility(View.GONE);
             }
         });
 
-       */
+        if(savedInstanceState != null){
+            tutorialBox.setVisibility(View.GONE);
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -182,12 +188,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Gestione infoWindow
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
-            public View getInfoWindow(Marker marker) {
+            public View getInfoContents(Marker marker) {
                 return null;
             }
 
             @Override
-            public View getInfoContents(Marker marker) {
+            public View getInfoWindow(Marker marker) {
                 View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
                 LatLng pos = null;
 
@@ -207,6 +213,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //Visualizza nell'infowindow testo e desrizione del marker selezionato
                 areaTitle.setText(title);
                 areaDescr.setText(informations);
+                areaDescr.setMovementMethod(new ScrollingMovementMethod());
 
                 return v;
             }
@@ -269,14 +276,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                hideBottomNavigationView(bottomNav);
+                //hideBottomNavigationView(bottomNav);
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
-                showBottomNavigationView(bottomNav);
+                //showBottomNavigationView(bottomNav);
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }

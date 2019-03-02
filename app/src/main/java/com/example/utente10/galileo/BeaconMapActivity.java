@@ -11,7 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.utente10.galileo.bean.Beacon;
@@ -40,7 +42,6 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
-    private Marker beaconMarker;
     private Bundle areaData;
     private String areaName;
     private BottomNavigationView infoNav;
@@ -55,8 +56,8 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         areaData = getIntent().getExtras();
         areaName = areaData.getString("macroarea");
 
-        infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
-        infoNav.setVisibility(View.GONE);
+        //infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
+        //infoNav.setVisibility(View.GONE);
 
         markers = new ArrayList<Marker>();
         //infoNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
@@ -70,6 +71,21 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbar);
         actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
+
+        Button closeBtn = (Button) findViewById(R.id.close);
+        RelativeLayout tutorialBox = (RelativeLayout) findViewById(R.id.tutorial_box);
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tutorialBox.setVisibility(View.GONE);
+            }
+        });
+
+        if(savedInstanceState != null){
+            tutorialBox.setVisibility(View.GONE);
+        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -131,13 +147,14 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //Gestione infoWindow
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
-            public View getInfoWindow(Marker marker) {
+            public View getInfoContents(Marker marker) {
                 return null;
             }
 
             @Override
-            public View getInfoContents(Marker marker) {
+            public View getInfoWindow(Marker marker) {
                 View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
+                v.setBackgroundColor(R.color.colorPrimary);
                 LatLng pos = null;
 
                 for (Macroarea m : macroareas) {
@@ -150,27 +167,31 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                 }
                     ImageView im = (ImageView) v.findViewById(R.id.place_img);
+                    int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
+                    im.setImageResource(imgId);
                     TextView areaTitle = (TextView) v.findViewById(R.id.place_title);
                     TextView areaDescr = (TextView) v.findViewById(R.id.place_descr);
                     Button b = (Button) v.findViewById(R.id.go_tour);
-                    b.setVisibility(View.GONE);
+                    b.setText("SCOPRI");
+                    areaDescr.setVisibility(View.GONE);
 
                     String title = landmark.getName();
-                    String informations = landmark.getDescription();
+                    //String informations = landmark.getDescription();
                     //Visualizza nell'infowindow testo e desrizione del marker selezionato
                     areaTitle.setText(title);
-                    areaDescr.setText(informations);
+                    //areaDescr.setText(informations);
 
                     return v;
             }
         });
+        //
 
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override public boolean onMarkerClick(Marker marker) {
-                if(infoNav.getVisibility() == View.GONE)
-                    infoNav.setVisibility(View.VISIBLE);
-                showBottomNavigationView(infoNav);
+//                if(infoNav.getVisibility() == View.GONE)
+//                    infoNav.setVisibility(View.VISIBLE);
+//                showBottomNavigationView(infoNav);
                 marker.showInfoWindow();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
                 return true;
@@ -178,6 +199,31 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         });
         //
 
+        //Click sull'infowindow
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                //infoNav.setVisibility(View.VISIBLE);
+                LatLng pos = null;
+                //reindirizzamento a BeaconMapActivity
+                for (Macroarea m : macroareas) {
+                    for (Landmark l : m.getLandmarks()) {
+                        pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+                        if (marker.getPosition().equals(pos)) {
+                            landmark = l;
+                            break;
+                        }
+                    }
+                }
+                Intent i = new Intent(getApplicationContext(), ContentsActivity.class);
+                i.putExtra("landmark",landmark.getName());
+                i.putExtra("macroarea", areaName);
+                startActivity(i);
+            }
+        });
+        //
+
+        /*
         mMap.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
             @Override
             public void onInfoWindowClose(Marker marker) {
@@ -205,6 +251,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 return true;
             }
         });
+        */
     }
 
     //Termina l'activity premendo il tasto indietro nella tooolbar

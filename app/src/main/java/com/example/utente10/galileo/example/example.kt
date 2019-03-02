@@ -16,6 +16,8 @@ val macroareasList: String = "{\n" +
         "        {\n" +
         "          \"name\": \"Cattedrale di Pisa\",\n" +
         "          \"description\": \"\",\n" +
+        "          \"content_url\": \"https://it.wikipedia.org/wiki/Duomo_di_Pisa\",\n" +
+        "          \"img_name\": \"cattedrale\",\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"mipj\",\n" +
         "            \"coordinates\": {\n" +
@@ -27,6 +29,8 @@ val macroareasList: String = "{\n" +
         "        {\n" +
         "          \"name\": \"Battistero di Pisa\",\n" +
         "          \"description\": \"\",\n" +
+        "          \"content_url\": \"https://it.wikipedia.org/wiki/Battistero_di_San_Giovanni_(Pisa)\",\n" +
+        "          \"img_name\": \"battistero\",\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"hmbl\",\n" +
         "            \"coordinates\": {\n" +
@@ -38,11 +42,13 @@ val macroareasList: String = "{\n" +
         "        {\n" +
         "          \"name\": \"Torre di Pisa\",\n" +
         "          \"description\": \"\",\n" +
+        "          \"content_url\": \"https://it.wikipedia.org/wiki/Torre_di_Pisa\",\n" +
+        "          \"img_name\": \"torre\",\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"mgvd\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.722971, \n" +
-        "              \"longitude\": 10.3966341\n" +
+        "              \"latitude\": 43.7231315,\n" +
+        "              \"longitude\": 10.3966985\n" +
         "            }\n" +
         "          }\n" +
         "        }\n" +

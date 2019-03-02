@@ -9,6 +9,6 @@ open class Landmark : RealmModel {
     var name: String? = null
     var beacon: Beacon? = null
     var description: String? = null
-    var videos: RealmList<String>? = null
-    var photos: RealmList<String>? = null
+    var content_url: String? = null
+    var img_name: String? = null
 }

@@ -7,9 +7,13 @@
     <string name="button_avvia">Avvia il tour!</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="close">X</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyAP6PT-j_gBV8UXhOBhrYH573v8kNZs34Q</string>
     <string name="landmark_channel">landmarkChannel</string>
     <string name="channel_description">channel to notify landmark discovery</string>
     <string name="title_activity_beacon_map">BeaconMap</string>
+    <string name="welcome">Benvenuto in GalileoPisaTour!</string>
+    <string name="tutorial_maps">> Tap su un punto GalileoPisaTour nella mappa\n<i>oppure...</i>\n> Ricevi le notifiche quando sei vicino a un\'area GalileoPisaTour</string>
+    <string name="tutorial_beacon">> Tap su un punto GalileoPisaTour nella mappa\n<i>oppure...</i>\n> Ricevi le notifiche quando visiti i luoghi GalileoPisaTour</string>
 </resources>

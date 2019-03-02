@@ -4,13 +4,16 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    >
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:maxHeight="400dp"
         android:orientation="vertical"
-        android:id="@+id/toplayout">
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/toplayout"
+        android:paddingBottom="5dp">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -42,11 +45,12 @@
             android:id="@+id/place_descr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxHeight="200dp"
             android:layout_marginTop="5dp"
-            android:textSize="12dp"
-            android:text="Descrizione Descrizione Descrizione Descrizione Descrizione"
+            android:textSize="15sp"
+            android:scrollbars="vertical"
             android:fontFamily="@font/lato"
-            android:textColor="@color/grey" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/go_tour"
@@ -57,7 +61,8 @@
             android:background="@color/colorPrimary"
             android:textSize="12dp"
             android:layout_marginTop="5dp"
-            android:text="Vai al tour"/>
+            android:text="ESPLORA"
+            />
 
     </LinearLayout>
 
