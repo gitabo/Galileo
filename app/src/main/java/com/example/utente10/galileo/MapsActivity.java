@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -62,6 +63,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupDrawer();
 
         Button closeBtn = (Button) findViewById(R.id.close);
+        Button explore = (Button) findViewById(R.id.go_tour);
         RelativeLayout tutorialBox = (RelativeLayout) findViewById(R.id.tutorial_box);
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
@@ -311,7 +314,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
        marker.showInfoWindow();
        CameraUpdate center = CameraUpdateFactory.newLatLng(aboveMarkerLatLng);
        mMap.moveCamera(center);
-   }
+
+       LatLng pos = null;
+       View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
+
+       Realm realm = Realm.getDefaultInstance();
+       RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).findAll();
+
+       for (Macroarea m : macroareas) {
+           pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
+           if(marker.getPosition().equals(pos)){
+               macroarea = m;
+               break;
+           }
+       }
+
+       ImageView im = (ImageView) v.findViewById(R.id.place_img);
+       TextView areaTitle = (TextView) v.findViewById(R.id.place_title);
+       TextView areaDescr = (TextView) v.findViewById(R.id.place_descr);
+       String title = macroarea.getName();
+       String informations = macroarea.getDescription();
+       //Visualizza nell'infowindow testo e desrizione del marker selezionato
+       areaTitle.setText(title);
+       areaDescr.setText(informations);
+       areaDescr.setMovementMethod(new ScrollingMovementMethod());
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

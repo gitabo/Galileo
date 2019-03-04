@@ -60,7 +60,7 @@
             android:shadowColor="@color/black"
             android:shadowDx="10"
             android:shadowDy="1"
-            android:shadowRadius="5" />
+            android:shadowRadius="3" />
 
         <TextView
             android:layout_width="270dp"

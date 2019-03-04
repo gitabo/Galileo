@@ -1,6 +1,8 @@
 package com.example.utente10.galileo;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -36,6 +39,8 @@ import io.realm.RealmResults;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.View.GONE;
 
 public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -78,12 +83,12 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tutorialBox.setVisibility(View.GONE);
+                tutorialBox.setVisibility(GONE);
             }
         });
 
         if(savedInstanceState != null){
-            tutorialBox.setVisibility(View.GONE);
+            tutorialBox.setVisibility(GONE);
         }
 
 
@@ -153,7 +158,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
             @Override
             public View getInfoWindow(Marker marker) {
-                View v = getLayoutInflater().inflate(R.layout.infowindowlayout, null);
+                View v = getLayoutInflater().inflate(R.layout.landmark_info, null);
                 v.setBackgroundColor(R.color.colorPrimary);
                 LatLng pos = null;
 
@@ -166,21 +171,18 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                         }
                     }
                 }
-                    ImageView im = (ImageView) v.findViewById(R.id.place_img);
+                    ImageView im = (ImageView) v.findViewById(R.id.landmark_img);
                     int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
                     im.setImageResource(imgId);
-                    TextView areaTitle = (TextView) v.findViewById(R.id.place_title);
-                    TextView areaDescr = (TextView) v.findViewById(R.id.place_descr);
-                    Button b = (Button) v.findViewById(R.id.go_tour);
+                    TextView areaTitle = (TextView) v.findViewById(R.id.landmark_title);
+                    Button b = (Button) v.findViewById(R.id.webcontent);
                     b.setText("SCOPRI");
-                    areaDescr.setVisibility(View.GONE);
 
                     String title = landmark.getName();
                     //String informations = landmark.getDescription();
                     //Visualizza nell'infowindow testo e desrizione del marker selezionato
                     areaTitle.setText(title);
                     //areaDescr.setText(informations);
-
                     return v;
             }
         });
@@ -189,11 +191,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override public boolean onMarkerClick(Marker marker) {
-//                if(infoNav.getVisibility() == View.GONE)
-//                    infoNav.setVisibility(View.VISIBLE);
-//                showBottomNavigationView(infoNav);
-                marker.showInfoWindow();
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+                showInformation(marker);
                 return true;
             }
         });
@@ -252,6 +250,25 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
         */
+    }
+
+    private void showInformation(Marker marker){
+        // Calcolo spostamento mappa per centrare l'infowindow
+        RelativeLayout mapContainer = (RelativeLayout) findViewById(R.id.mapcontainer);
+        int container_height = mapContainer.getHeight();
+
+        Projection projection = mMap.getProjection();
+
+        LatLng markerLatLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+        Point markerScreenPosition = projection.toScreenLocation(markerLatLng);
+        Point pointHalfScreenAbove = new Point(markerScreenPosition.x, markerScreenPosition.y - (container_height / 2));
+
+        LatLng aboveMarkerLatLng = projection.fromScreenLocation(pointHalfScreenAbove);
+        //
+
+        marker.showInfoWindow();
+        CameraUpdate center = CameraUpdateFactory.newLatLng(aboveMarkerLatLng);
+        mMap.moveCamera(center);
     }
 
     //Termina l'activity premendo il tasto indietro nella tooolbar

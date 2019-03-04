@@ -41,7 +41,7 @@ val macroareasList: String = "{\n" +
         "        },\n" +
         "        {\n" +
         "          \"name\": \"Torre di Pisa\",\n" +
-        "          \"description\": \"\",\n" +
+        "          \"description\": \"Si ricorda spesso la leggenda secondo la quale Galileo, per dimostrare la sua legge di caduta dei gravi, sarebbe salito sulla torre di Pisa e avrebbe fatto cadere oggetti di materiale diverso per verificare la fondatezza delle sue teorie. Questo ” racconto ” è falso ed è solo una leggenda per mancanza di prove storiche.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Torre_di_Pisa\",\n" +
         "          \"img_name\": \"torre\",\n" +
         "          \"beacon\": {\n" +

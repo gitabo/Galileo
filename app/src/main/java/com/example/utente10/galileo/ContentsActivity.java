@@ -7,7 +7,10 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.utente10.galileo.bean.Landmark;
@@ -77,6 +80,7 @@ public class ContentsActivity extends AppCompatActivity {
            }
        });
 
+
         Realm realm = Realm.getDefaultInstance();
         // Query macroarea selezionata
         RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).equalTo("name",areaName).findAll();
@@ -92,6 +96,31 @@ public class ContentsActivity extends AppCompatActivity {
 
         String contentUrl = landmark.getContent_url();
         myWebView.loadUrl(contentUrl);
+
+        Button closeBtn = (Button)  findViewById(R.id.curiosita_close);
+        Button curiositaBtn = (Button)  findViewById(R.id.curiosita_btn);
+        RelativeLayout curiositaBox = (RelativeLayout) findViewById(R.id.curiosita);
+
+        curiositaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(curiositaBox.getVisibility() == View.GONE)
+                    curiositaBox.setVisibility(View.VISIBLE);
+                else
+                    curiositaBox.setVisibility(View.GONE);
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                curiositaBox.setVisibility(View.GONE);
+            }
+        });
+
+        String galileoText = landmark.getDescription();
+        TextView curiositaText = (TextView) findViewById(R.id.curiosita_text);
+        curiositaText.setText(galileoText);
 
     }
 

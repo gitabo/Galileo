@@ -7,27 +7,102 @@
     tools:context=".ContentsActivity">
 
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/webview"
-        >
-    </WebView>
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webview"
+            >
+        </WebView>
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:indeterminate="true"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary"
-        />
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorPrimary"
+            />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/curiosita_btn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/round_button"
+            android:drawableTop="@drawable/round_button_icon"
+            android:text="CURIOSITÀ"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            />
+
+        <RelativeLayout
+            android:id="@+id/curiosita"
+            android:visibility="gone"
+            android:layout_width="420dp"
+            android:layout_height="440dp"
+            android:background="@drawable/box_curiosita"
+            >
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:src="@drawable/galileo_book"/>
+
+            <TextView
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="50dp"
+                android:text="@string/app_title"
+                android:textSize="18sp"
+                android:layout_centerInParent="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:fontFamily="@font/michail"
+                android:shadowColor="@color/black"
+                android:shadowDx="10"
+                android:shadowDy="1"
+                android:shadowRadius="2"/>
+
+            <TextView
+                android:id="@+id/curiosita_text"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="100dp"
+                android:fontFamily="@font/lato"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:scrollbars="vertical"
+                android:layout_marginLeft="40dp"
+                />
+
+            <Button
+                android:id="@+id/curiosita_close"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="CHIUDI"
+                android:textColor="@color/white"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorPrimary"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/lato"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/contents_toolbar"
@@ -36,7 +111,5 @@
         app:titleTextColor="@color/white"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarColoredBackArrow" />
-
-
 
 </android.support.constraint.ConstraintLayout>
