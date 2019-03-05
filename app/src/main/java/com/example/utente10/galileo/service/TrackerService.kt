@@ -170,11 +170,11 @@ class TrackerService : Service() {
         if (proximityManager.isConnected){
             proximityManager.disconnect()
         }
-        //DISABLING BLUETOOTH
+        /*DISABLING BLUETOOTH
         val bluetooth = BluetoothAdapter.getDefaultAdapter();
         if (bluetooth.isEnabled) {
             bluetooth.disable()
-        }
+        }*/
     }
 
     private fun checkPosition(l: Location) {
