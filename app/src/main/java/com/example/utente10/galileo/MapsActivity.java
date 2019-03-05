@@ -153,6 +153,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //checkPosition(loc);
 
+        /*
         //Check GPS position and nearest macroarea on location changed
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
             @Override
@@ -175,7 +176,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
         });
-        //
+        */
 
 
         //Gestione click sul marker
@@ -246,6 +247,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    /*
     private void checkPosition(Location l){
         double gpsLat = l.getLatitude();
         double gpsLng = l.getLongitude();
@@ -271,7 +273,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             i++;
         }
-    }
+    }*/
 
     // Gestione apertura menu hamburger
     private void setupDrawer() {

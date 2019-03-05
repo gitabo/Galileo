@@ -1,5 +1,6 @@
 package com.example.utente10.galileo.service
 
+import android.annotation.SuppressLint
 import android.app.Notification.VISIBILITY_PUBLIC
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,7 +9,11 @@ import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
@@ -17,6 +22,7 @@ import android.util.Log
 import com.example.utente10.galileo.MainActivity
 import com.example.utente10.galileo.R
 import com.example.utente10.galileo.bean.Landmark
+import com.example.utente10.galileo.bean.Macroarea
 import com.kontakt.sdk.android.ble.manager.ProximityManager
 import com.kontakt.sdk.android.ble.manager.ProximityManagerFactory
 import com.kontakt.sdk.android.common.profile.IBeaconRegion
@@ -31,8 +37,20 @@ class TrackerService : Service() {
     private val CHANNEL_ID = "landmarkChannel"
     private var notificationId = 0
 
+    companion object {
+        var uniqueTracker:TrackerService? = null
+            private set
+
+        var currentArea: Macroarea? = null
+            private set
+    }
+
     val proximityManager: ProximityManager by lazy {
         ProximityManagerFactory.create(this)
+    }
+
+    val locationManager:LocationManager by lazy {
+        getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     private val iBeaconListener: IBeaconListener by lazy {
@@ -92,11 +110,33 @@ class TrackerService : Service() {
         }
     }
 
-    //Setting automatic restart after App is manually closed
+
+    @SuppressLint("MissingPermission")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("TrackerService", "ON")
 
+        uniqueTracker = this
+
         createNotificationChannel()
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f, object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+                checkPosition(location)
+            }
+
+            override fun onProviderDisabled(provider: String) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onProviderEnabled(provider: String) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
+                // TODO Auto-generated method stub
+            }
+
+        })
 
         proximityManager.setIBeaconListener(iBeaconListener)
         beaconScanActivation()
@@ -126,8 +166,43 @@ class TrackerService : Service() {
         }
     }
 
+    private fun beaconScanDeactivation() {
+        if (proximityManager.isConnected){
+            proximityManager.disconnect()
+        }
+        //DISABLING BLUETOOTH
+        val bluetooth = BluetoothAdapter.getDefaultAdapter();
+        if (bluetooth.isEnabled) {
+            bluetooth.disable()
+        }
+    }
+
+    private fun checkPosition(l: Location) {
+
+        val realm = Realm.getDefaultInstance()
+        val macroareas = realm.where(Macroarea::class.java).findAll()
+
+        val area = Location("area")
+
+        for (m in macroareas) {
+            area.latitude = m.center?.latitude!!
+            area.longitude = m.center?.longitude!!
+            val distance = l.distanceTo(area)
+
+            //we are inside a macroarea
+            if (distance < m.radius!!) {
+                currentArea = m
+                beaconScanActivation()
+              return
+            }
+        }
+        //we are outside a macroarea
+        currentArea = null
+        beaconScanDeactivation()
+    }
+
     private fun getLocationFromBeacon(beacon: String): Landmark? {
-        var realm = Realm.getDefaultInstance()
+        val realm = Realm.getDefaultInstance()
         return realm.where(Landmark::class.java).equalTo("beacon.label", beacon).findFirst()
     }
 }
