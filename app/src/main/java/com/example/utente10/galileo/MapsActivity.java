@@ -132,6 +132,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             int padding = 1; // offset from edges of the map in pixels need to be different from zero
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.animateCamera(cu);
+            googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         } else {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 18.0f));
         }

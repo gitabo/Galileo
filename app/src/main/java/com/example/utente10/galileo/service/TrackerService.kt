@@ -19,10 +19,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
 import android.util.Log
-import com.example.utente10.galileo.BuildConfig
-import com.example.utente10.galileo.ContentsActivity
-import com.example.utente10.galileo.MainActivity
-import com.example.utente10.galileo.R
+import com.example.utente10.galileo.*
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.bean.Macroarea
 import com.kontakt.sdk.android.ble.manager.ProximityManager
@@ -77,14 +74,44 @@ class TrackerService : Service() {
         val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             // Add the intent, which inflates the back stack
             addNextIntentWithParentStack(intent)
+            //TODO: creare stack per le activity che dovrebbero essere aperte all'apertura della notifica
             // Get the PendingIntent containing the entire back stack
             getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
-        var mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+        val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(landmark.name)
                 .setContentText(landmark.description)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVisibility(VISIBILITY_PUBLIC)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+        with(NotificationManagerCompat.from(this)) {
+            // notificationId is a unique int for each notification that you must define
+            notify(notificationId, mBuilder.build())
+        }
+    }
+
+    private fun sendNotification(macroarea: Macroarea) {
+
+        // Creating an Intent for the activity to start
+        //activity to start on notification click
+        val intent = Intent(this, BeaconMapActivity::class.java)
+        intent.putExtra("macroarea", macroarea.name)
+        // Create the TaskStackBuilder
+        val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+            // Add the intent, which inflates the back stack
+            addNextIntentWithParentStack(intent)
+            //TODO: creare stack per le activity che dovrebbero essere aperte all'apertura della notifica
+            // Get the PendingIntent containing the entire back stack
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
+        val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(macroarea.name)
+                .setContentText(macroarea.description)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(VISIBILITY_PUBLIC)
                 .setAutoCancel(true)
@@ -201,6 +228,8 @@ class TrackerService : Service() {
                 if (currentArea != m) {
                     currentArea = m
                     beaconScanActivation()
+                    //notify macroArea
+                    sendNotification(m)
                 }
                 return
             }

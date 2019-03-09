@@ -64,7 +64,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
         //infoNav.setVisibility(View.GONE);
 
-        markers = new ArrayList<Marker>();
+        markers = new ArrayList<>();
         //infoNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
         //infoNav.setSelectedItemId(R.id.info_nav);
 
@@ -87,7 +87,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             tutorialBox.setVisibility(GONE);
         }
 
@@ -112,29 +112,25 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setPadding(0,0,0, 150);
+        mMap.setPadding(0, 0, 0, 150);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         int i = 0;
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
         // Query macroarea selezionata
-        RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).equalTo("name",areaName).findAll();
-
-        // Memorizzazione nell'array landmarks dei Beacon della macroarea
-
+        Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
         LatLng pos = null;
-        for(Macroarea m : macroareas) {
-            for (Landmark l : m.getLandmarks()) {
-                pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                markers.add(mMap.addMarker(new MarkerOptions().position(pos).title(l.getName())));
-                markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
-                i++;
-            }
+
+        for (Landmark l : macroarea.getLandmarks()) {
+            pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+            markers.add(mMap.addMarker(new MarkerOptions().position(pos).title(l.getName())));
+            markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+            i++;
         }
 
-        if (i < 1)
+        if (i < 2)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
         else {
             //Center all markers in the map
@@ -146,7 +142,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             LatLngBounds bounds = builder.build();
             int padding = 40; // offset from edges of the map in pixels
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            googleMap.animateCamera(cu);
+            googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         }
 
         UiSettings uiSettings = mMap.getUiSettings();
@@ -165,35 +161,35 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 v.setBackgroundColor(R.color.colorPrimary);
                 LatLng pos = null;
 
-                for (Macroarea m : macroareas) {
-                    for (Landmark l : m.getLandmarks()) {
-                        pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                        if (marker.getPosition().equals(pos)) {
-                            landmark = l;
-                            break;
-                        }
+
+                for (Landmark l : macroarea.getLandmarks()) {
+                    pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+                    if (marker.getPosition().equals(pos)) {
+                        landmark = l;
+                        break;
                     }
                 }
-                    ImageView im = (ImageView) v.findViewById(R.id.landmark_img);
-                    int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
-                    im.setImageResource(imgId);
-                    TextView areaTitle = (TextView) v.findViewById(R.id.landmark_title);
-                    Button b = (Button) v.findViewById(R.id.webcontent);
-                    b.setText("SCOPRI");
 
-                    String title = landmark.getName();
-                    //String informations = landmark.getDescription();
-                    //Visualizza nell'infowindow testo e desrizione del marker selezionato
-                    areaTitle.setText(title);
-                    //areaDescr.setText(informations);
-                    return v;
+                ImageView im = (ImageView) v.findViewById(R.id.landmark_img);
+                int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
+                im.setImageResource(imgId);
+                TextView areaTitle = (TextView) v.findViewById(R.id.landmark_title);
+                Button b = (Button) v.findViewById(R.id.webcontent);
+                b.setText("SCOPRI");
+
+                String title = landmark.getName();
+                //String informations = landmark.getDescription();
+                //Visualizza nell'infowindow testo e desrizione del marker selezionato
+                areaTitle.setText(title);
+                //areaDescr.setText(informations);
+                return v;
             }
         });
-        //
 
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override public boolean onMarkerClick(Marker marker) {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
                 showInformation(marker);
                 return true;
             }
@@ -201,25 +197,22 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //
 
         //Click sull'infowindow
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                //infoNav.setVisibility(View.VISIBLE);
-                LatLng pos = null;
-                //reindirizzamento a BeaconMapActivity
-                for (Macroarea m : macroareas) {
-                    for (Landmark l : m.getLandmarks()) {
-                        pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                        if (marker.getPosition().equals(pos)) {
-                            landmark = l;
-                            break;
-                        }
-                    }
+        mMap.setOnInfoWindowClickListener(marker -> {
+            //infoNav.setVisibility(View.VISIBLE);
+
+            //reindirizzamento a BeaconMapActivity
+
+            for (Landmark l : macroarea.getLandmarks()) {
+                LatLng pos1 = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+                if (marker.getPosition().equals(pos1)) {
+                    landmark = l;
+                    break;
                 }
-                Intent i = new Intent(getApplicationContext(), ContentsActivity.class);
-                i.putExtra("landmarkLabel",landmark.getBeacon().getLabel());
-                startActivity(i);
             }
+
+            Intent i1 = new Intent(getApplicationContext(), ContentsActivity.class);
+            i1.putExtra("landmarkLabel", landmark.getBeacon().getLabel());
+            startActivity(i1);
         });
         //
 
@@ -254,7 +247,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         */
     }
 
-    private void showInformation(Marker marker){
+    private void showInformation(Marker marker) {
         // Calcolo spostamento mappa per centrare l'infowindow
         RelativeLayout mapContainer = (RelativeLayout) findViewById(R.id.mapcontainer);
         int container_height = mapContainer.getHeight();
@@ -275,7 +268,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     //Termina l'activity premendo il tasto indietro nella tooolbar
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
