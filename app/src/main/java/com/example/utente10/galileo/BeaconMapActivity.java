@@ -133,18 +133,21 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 i++;
             }
         }
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
 
-        //Center all markers in the map
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : markers) {
-            builder.include(marker.getPosition());
+        if (i < 1)
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
+        else {
+            //Center all markers in the map
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : markers) {
+                builder.include(marker.getPosition());
+            }
+
+            LatLngBounds bounds = builder.build();
+            int padding = 40; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.animateCamera(cu);
         }
-        LatLngBounds bounds = builder.build();
-        int padding = 40; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cu);
-        //
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(false);
@@ -214,8 +217,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                 }
                 Intent i = new Intent(getApplicationContext(), ContentsActivity.class);
-                i.putExtra("landmark",landmark.getName());
-                i.putExtra("macroarea", areaName);
+                i.putExtra("landmarkLabel",landmark.getBeacon().getLabel());
                 startActivity(i);
             }
         });

@@ -20,6 +20,7 @@ import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
 import android.util.Log
 import com.example.utente10.galileo.BuildConfig
+import com.example.utente10.galileo.ContentsActivity
 import com.example.utente10.galileo.MainActivity
 import com.example.utente10.galileo.R
 import com.example.utente10.galileo.bean.Landmark
@@ -69,8 +70,9 @@ class TrackerService : Service() {
     private fun sendNotification(landmark: Landmark) {
 
         // Creating an Intent for the activity to start
-        //TODO: change the activity to start on notification click
-        val intent = Intent(this, MainActivity::class.java)
+        //activity to start on notification click
+        val intent = Intent(this, ContentsActivity::class.java)
+        intent.putExtra("landmarkLabel", landmark.beacon?.label)
         // Create the TaskStackBuilder
         val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
             // Add the intent, which inflates the back stack
@@ -142,7 +144,8 @@ class TrackerService : Service() {
         })
 
         proximityManager.setIBeaconListener(iBeaconListener)
-        beaconScanActivation()
+        //Now scan start inside macroarea
+        //beaconScanActivation()
 
         return START_STICKY
     }

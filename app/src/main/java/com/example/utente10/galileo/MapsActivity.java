@@ -45,11 +45,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
-    private BottomNavigationView bottomNav;
     private List<Marker> markers;
+    private Macroarea macroarea = null;
+    private BottomNavigationView bottomNav;
     private Marker userPos;
     private float distance;
-    private Macroarea macroarea = null;
 
 
 
@@ -138,36 +138,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
-        //
-
-        /*Check GPS position and nearest macroarea
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        //Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //checkPosition(loc);
-
-        //Check GPS position and nearest macroarea on location changed
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                checkPosition(location);
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void onProviderEnabled(String provider) {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void onStatusChanged(String provider, int status,
-                                        Bundle extras) {
-                // TODO Auto-generated method stub
-            }
-
-        });
-        */
 
 
         //Gestione click sul marker
@@ -371,5 +341,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void showBottomNavigationView(BottomNavigationView view) {
         view.animate().translationY(0);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }
