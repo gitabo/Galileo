@@ -1,10 +1,6 @@
 package com.example.utente10.galileo.service
 
 import android.annotation.SuppressLint
-import android.app.Notification.VISIBILITY_PUBLIC
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
@@ -12,16 +8,15 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.app.TaskStackBuilder
 import android.util.Log
 import com.example.utente10.galileo.*
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.bean.Macroarea
+import com.example.utente10.galileo.notification.createNotificationChannel
+import com.example.utente10.galileo.notification.sendNotificationForLandmark
+import com.example.utente10.galileo.notification.sendNotificationForMacroarea
 import com.kontakt.sdk.android.ble.manager.ProximityManager
 import com.kontakt.sdk.android.ble.manager.ProximityManagerFactory
 import com.kontakt.sdk.android.common.profile.IBeaconRegion
@@ -32,9 +27,6 @@ import io.realm.Realm
 
 
 class TrackerService : Service() {
-
-    private val CHANNEL_ID = "landmarkChannel"
-    private var notificationId = 0
 
     companion object {
         var uniqueTracker: TrackerService? = null
@@ -59,84 +51,8 @@ class TrackerService : Service() {
                 Log.i("Found Beacon:", "label: " + ibeacon.uniqueId)
                 val landmark = getLocationFromBeacon(ibeacon.uniqueId)
                 if (landmark != null)
-                    sendNotification(landmark)
+                    sendNotificationForLandmark(uniqueTracker as Context, landmark)
             }
-        }
-    }
-
-    private fun sendNotification(landmark: Landmark) {
-
-        // Creating an Intent for the activity to start
-        //activity to start on notification click
-        val intent = Intent(this, ContentsActivity::class.java)
-        intent.putExtra("landmarkLabel", landmark.beacon?.label)
-        // Create the TaskStackBuilder
-        val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-            // Add the intent, which inflates the back stack
-            addNextIntentWithParentStack(intent)
-            //TODO: creare stack per le activity che dovrebbero essere aperte all'apertura della notifica
-            // Get the PendingIntent containing the entire back stack
-            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
-
-        val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(landmark.name)
-                .setContentText(landmark.description)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVisibility(VISIBILITY_PUBLIC)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(notificationId, mBuilder.build())
-        }
-    }
-
-    private fun sendNotification(macroarea: Macroarea) {
-
-        // Creating an Intent for the activity to start
-        //activity to start on notification click
-        val intent = Intent(this, BeaconMapActivity::class.java)
-        intent.putExtra("macroarea", macroarea.name)
-        // Create the TaskStackBuilder
-        val pendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-            // Add the intent, which inflates the back stack
-            addNextIntentWithParentStack(intent)
-            //TODO: creare stack per le activity che dovrebbero essere aperte all'apertura della notifica
-            // Get the PendingIntent containing the entire back stack
-            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-        }
-
-        val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(macroarea.name)
-                .setContentText(macroarea.description)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVisibility(VISIBILITY_PUBLIC)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-        with(NotificationManagerCompat.from(this)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(notificationId, mBuilder.build())
-        }
-    }
-
-    //creating notification channel for android>=8.0
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.landmark_channel)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
         }
     }
 
@@ -147,7 +63,7 @@ class TrackerService : Service() {
 
         uniqueTracker = this
 
-        createNotificationChannel()
+        createNotificationChannel(this)
 
         val provider = if(BuildConfig.DEBUG) LocationManager.GPS_PROVIDER else LocationManager.NETWORK_PROVIDER
 
@@ -229,7 +145,7 @@ class TrackerService : Service() {
                     currentArea = m
                     beaconScanActivation()
                     //notify macroArea
-                    sendNotification(m)
+                    sendNotificationForMacroarea(this, m)
                 }
                 return
             }

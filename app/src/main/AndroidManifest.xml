@@ -20,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContentsActivity"></activity>
+        <activity android:name=".ContentsActivity"/>
 
         <service
             android:name="com.kontakt.sdk.android.ble.service.ProximityService"
@@ -46,6 +46,7 @@
         </activity>
 
         <service
+            android:singleUser="true"
             android:name=".service.TrackerService"
             android:enabled="true" />
 
