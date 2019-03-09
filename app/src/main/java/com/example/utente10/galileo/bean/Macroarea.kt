@@ -9,7 +9,17 @@ import io.realm.annotations.RealmClass
 open class Macroarea : RealmModel {
     var name: String? = null
     var center: Coordinates? = null
-    var radius: Double? = null
+    var radius: Double? = null  //in meter!!
     var description: String? = null
     var landmarks: RealmList<Landmark>? = null
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Macroarea)
+            return false
+        if (other.name != this.name)
+            return false
+        if (other.center != this.center)
+            return false
+        return true
+    }
 }

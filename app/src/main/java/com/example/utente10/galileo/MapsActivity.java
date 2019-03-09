@@ -1,16 +1,10 @@
 package com.example.utente10.galileo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,14 +12,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.utente10.galileo.bean.Macroarea;
 import com.google.android.gms.maps.CameraUpdate;
@@ -133,27 +123,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
             i++;
         }
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : markers) {
-            builder.include(marker.getPosition());
+        if (markers.size() > 1) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : markers) {
+                builder.include(marker.getPosition());
+            }
+            LatLngBounds bounds = builder.build();
+            int padding = 1; // offset from edges of the map in pixels need to be different from zero
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.animateCamera(cu);
+        } else {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 18.0f));
         }
-        LatLngBounds bounds = builder.build();
-        int padding = 0; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        googleMap.animateCamera(cu);
 
         UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setZoomGesturesEnabled(true);
         //
 
-        //Check GPS position and nearest macroarea
+        /*Check GPS position and nearest macroarea
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         //Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         //checkPosition(loc);
 
-        /*
         //Check GPS position and nearest macroarea on location changed
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, new LocationListener() {
             @Override

@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.TaskStackBuilder
 import android.util.Log
+import com.example.utente10.galileo.BuildConfig
 import com.example.utente10.galileo.MainActivity
 import com.example.utente10.galileo.R
 import com.example.utente10.galileo.bean.Landmark
@@ -38,7 +39,7 @@ class TrackerService : Service() {
     private var notificationId = 0
 
     companion object {
-        var uniqueTracker:TrackerService? = null
+        var uniqueTracker: TrackerService? = null
             private set
 
         var currentArea: Macroarea? = null
@@ -49,7 +50,7 @@ class TrackerService : Service() {
         ProximityManagerFactory.create(this)
     }
 
-    val locationManager:LocationManager by lazy {
+    val locationManager: LocationManager by lazy {
         getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
@@ -119,21 +120,23 @@ class TrackerService : Service() {
 
         createNotificationChannel()
 
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10f, object : LocationListener {
+        val provider = if(BuildConfig.DEBUG) LocationManager.GPS_PROVIDER else LocationManager.NETWORK_PROVIDER
+
+        locationManager.requestLocationUpdates(provider, 10000, 10f, object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 checkPosition(location)
             }
 
             override fun onProviderDisabled(provider: String) {
-                // TODO Auto-generated method stub
+                // Nothing TO DO
             }
 
             override fun onProviderEnabled(provider: String) {
-                // TODO Auto-generated method stub
+                // Nothing TO DO
             }
 
             override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
-                // TODO Auto-generated method stub
+                // Nothing TO DO
             }
 
         })
@@ -161,13 +164,14 @@ class TrackerService : Service() {
         if (!bluetooth.isEnabled) {
             bluetooth.enable()
         }
-        proximityManager.connect {
-            proximityManager.startScanning()
-        }
+        if (!proximityManager.isScanning)
+            proximityManager.connect {
+                proximityManager.startScanning()
+            }
     }
 
     private fun beaconScanDeactivation() {
-        if (proximityManager.isConnected){
+        if (proximityManager.isConnected) {
             proximityManager.disconnect()
         }
         /*DISABLING BLUETOOTH
@@ -191,14 +195,18 @@ class TrackerService : Service() {
 
             //we are inside a macroarea
             if (distance < m.radius!!) {
-                currentArea = m
-                beaconScanActivation()
-              return
+                if (currentArea != m) {
+                    currentArea = m
+                    beaconScanActivation()
+                }
+                return
             }
         }
         //we are outside a macroarea
-        currentArea = null
-        beaconScanDeactivation()
+        if (currentArea != null) {
+            currentArea = null
+            beaconScanDeactivation()
+        }
     }
 
     private fun getLocationFromBeacon(beacon: String): Landmark? {

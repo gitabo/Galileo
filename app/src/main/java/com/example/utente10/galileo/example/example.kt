@@ -10,7 +10,7 @@ val macroareasList: String = "{\n" +
         "        \"latitude\": 43.7227764,\n" +
         "        \"longitude\": 10.3949551\n" +
         "      },\n" +
-        "      \"radius\": 0.0004558555144,\n" +
+        "      \"radius\": 220,\n" +
         "      \"description\": \"La piazza del Duomo è il centro artistico e turistico più importante di Pisa. Annoverata fra i Patrimoni dell'Umanità dall'UNESCO dal 1987, vi si possono ammirare i monumenti che formano il centro della vita religiosa cittadina, detti miracoli (da Gabriele d'Annunzio del 1910) per la loro bellezza e originalità: la Cattedrale, il Battistero, il Campo Santo e il Campanile. Da ciò deriva il nome popolare di piazza dei Miracoli diffusosi poi nel dopoguerra, era del turismo di massa.\",\n" +
         "      \"landmarks\": [\n" +
         "        {\n" +
@@ -32,7 +32,7 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Battistero_di_San_Giovanni_(Pisa)\",\n" +
         "          \"img_name\": \"battistero\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"hmbl\",\n" +
+        "            \"label\": \"MKoU\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.723309,\n" +
         "              \"longitude\": 10.394162\n" +
