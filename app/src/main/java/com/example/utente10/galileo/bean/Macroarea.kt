@@ -10,6 +10,7 @@ open class Macroarea : RealmModel {
     var name: String? = null
     var center: Coordinates? = null
     var radius: Double? = null  //in meter!!
+    var img: String? = null
     var description: String? = null
     var landmarks: RealmList<Landmark>? = null
 

@@ -172,6 +172,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 ImageView im = (ImageView) v.findViewById(R.id.place_img);
+                int imgId = getResources().getIdentifier(macroarea.getImg(), "drawable", getPackageName());
+                im.setImageResource(imgId);
                 TextView areaTitle = (TextView) v.findViewById(R.id.place_title);
                 TextView areaDescr = (TextView) v.findViewById(R.id.place_descr);
                 String title = macroarea.getName();
