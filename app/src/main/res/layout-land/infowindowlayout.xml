@@ -29,8 +29,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="start"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/duomo" />
+                android:scaleType="fitXY" />
 
             <TextView
                 android:id="@+id/place_title"
