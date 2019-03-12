@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.utente10.galileo.bean.Beacon;
 import com.example.utente10.galileo.bean.Landmark;
@@ -52,6 +53,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private BottomNavigationView infoNav;
     private Landmark landmark;
     private List<Marker> markers;
+    private LatLng pos = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +63,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         areaData = getIntent().getExtras();
         areaName = areaData.getString("macroarea");
 
-        //infoNav = (BottomNavigationView) findViewById(R.id.info_nav);
-        //infoNav.setVisibility(View.GONE);
-
         markers = new ArrayList<>();
-        //infoNav.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
-        //infoNav.setSelectedItemId(R.id.info_nav);
-
-        //Visualizza testo sotto le icone della bottomnavigationview
-        //BottomNavigationViewHelper.disableShiftMode(infoNav);
 
         toolbar = (Toolbar) findViewById(R.id.beacon_toolbar);
         toolbar.setTitle(areaName);
@@ -113,7 +107,9 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setPadding(0, 0, 0, 150);
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        mMap.setMyLocationEnabled(true);
 
         int i = 0;
         // Add a marker and move the camera
@@ -121,7 +117,6 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
-        LatLng pos = null;
 
         for (Landmark l : macroarea.getLandmarks()) {
             pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
@@ -131,12 +126,14 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
 
         if (i < 2)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
         else {
             //Center all markers in the map
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Marker marker : markers) {
                 builder.include(marker.getPosition());
+                //Debug
+                Toast.makeText(BeaconMapActivity.this,marker.getPosition().toString(), Toast.LENGTH_SHORT).show();
             }
 
             LatLngBounds bounds = builder.build();
@@ -145,8 +142,8 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         }
 
-        UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomGesturesEnabled(false);
+        //UiSettings uiSettings = mMap.getUiSettings();
+        //uiSettings.setZoomGesturesEnabled(false);
 
         //Gestione infoWindow
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {

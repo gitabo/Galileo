@@ -111,6 +111,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setPadding(0,0,0, 150);
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+        mMap.setMyLocationEnabled(true);
+
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Macroarea> macroareas = realm.where(Macroarea.class).findAll();
@@ -134,7 +136,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             googleMap.animateCamera(cu);
             googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         } else {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 18.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
         }
 
         UiSettings uiSettings = mMap.getUiSettings();

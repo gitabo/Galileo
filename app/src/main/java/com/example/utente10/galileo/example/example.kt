@@ -53,7 +53,7 @@ val macroareasList: String = "{\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
-        "           {\n" +
+        "        {\n" +
         "          \"name\": \"Camposanto monumentale\",\n" +
         "          \"description\": \"Sul braccio nord si trova la cappella Aulla, qui è conservata l'originale lampada di Galileo, un tempo sospesa in cattedrale e che effettivamente il grande scienziato pisano vide oscillare e che gli fornì l'idea per la sua teoria sull'isocronismo del pendolo.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Camposanto_monumentale\",\n" +
@@ -84,10 +84,10 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_della_Sapienza\",\n" +
         "          \"img_name\": \"sapienza\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.717294,\n" +
-        "              \"longitude\": 10.399269\n" +
+        "              \"latitude\": 43.717277,\n" +
+        "              \"longitude\": 10.399644\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
@@ -97,10 +97,10 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_alla_Giornata\",\n" +
         "          \"img_name\": \"rettorato\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.716694,\n" +
-        "              \"longitude\": 10.398889\n" +
+        "              \"latitude\": 43.716617,\n" +
+        "              \"longitude\": 10.398892\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
@@ -110,14 +110,14 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Museo_nazionale_di_palazzo_Reale\",\n" +
         "          \"img_name\": \"palazzo_reale\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.71632,\n" +
-        "              \"longitude\": 10.396994\n" +
+        "              \"latitude\":  43.716342, \n" +
+        "              \"longitude\": 10.397031\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
-        "           {\n" +
+        "        {\n" +
         "          \"name\": \"Domus Galilaeana\",\n" +
         "          \"description\": \"La Domus Galilaeana è un'istituzione culturale di Pisa. In particolare l'istituzione raccoglie tutte le pubblicazioni antiche e moderne su Galileo e coordina gli studi di storia della scienza, grazie a un fornitissimo archivio e ad un'importante biblioteca specializzata.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Domus_Galilaeana\",\n" +
@@ -125,8 +125,8 @@ val macroareasList: String = "{\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"zhje\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.71855,\n" +
-        "              \"longitude\": 10.397119\n" +
+        "              \"latitude\":  43.718395, \n" +
+        "              \"longitude\": 10.397262\n" +
         "            }\n" +
         "          }\n" +
         "        }\n" +
@@ -135,36 +135,36 @@ val macroareasList: String = "{\n" +
         "    {\n" +
         "      \"name\": \"Case di Galileo\",\n" +
         "      \"center\": {\n" +
-        "        \"latitude\": 43.716918, \n" +
-        "        \"longitude\": 10.404211 \n" +
+        "        \"latitude\": 43.716918,\n" +
+        "        \"longitude\": 10.404211\n" +
         "      },\n" +
-        "      \"radius\": 400,\n" +
+        "      \"radius\": 300,\n" +
         "      \"img\": \"casa\",\n" +
         "      \"description\": \"Nell'arco dei secoli la casa natale di Galileo Galilei a Pisa è stata localizzata in varie sedi. Nel novembre 1563 Vincenzo Galilei stipulò un contratto di affitto per una casa di proprietà della Famiglia Bocca in Pisa (all'angolo tra Borgo Stretto e Via Mercanti). Successivamente dall'atto di battesimo si risalì alla casa dei nonni di Galileo Galilei, casa Ammannati, dove fu finalmente collocata con ragionevole certezza la dimora natale del grande scienziato pisano.\",\n" +
         "      \"landmarks\": [\n" +
-        "        {\n" +
-        "          \"name\": \"Casa Bocca\",\n" +
-        "          \"description\": \"Nel novembre 1563 Vincenzo Galilei stipulò un contratto di affitto per una casa di proprietà della Famiglia Bocca in Pisa, dove andò ad abitare con la moglie Giulia Ammannati e dove teneva lezioni di musica. Una lapida fu apposta nel III centenario della morte di Galileo ed è tuttora visibile all'angolo tra Borgo Largo e Via Mercanti.\",\n" +
-        "          \"content_url\": \"https://www.unipi.it/index.php/tutte-le-news/item/3677-la-dimora-natale-di-galileo-l%E2%80%99enigma-delle-tre-case\",\n" +
-        "          \"img_name\": \"casa_borgo\",\n" +
-        "          \"beacon\": {\n" +
-        "            \"label\": \"\",\n" +
-        "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.717433, \n" +
-        "              \"longitude\": 10.402267\n" +
-        "            }\n" +
-        "          }\n" +
-        "        },\n" +
         "        {\n" +
         "          \"name\": \"Casa Ammannati\",\n" +
         "          \"description\": \"La casa natale di Galileo Galilei apparteneva alla famiglia della madre ed era detta casa Ammannati. Giulia Ammannati di Villa Basilica di Pescia, madre di Galileo, acquistò la casa in Pisa con la dote nuziale di 100 scudi d'oro ricevuti dallo zio Leone al momento del matrimonio con Vincenzo Galilei, musico, padre di Galileo.\",\n" +
         "          \"content_url\": \"https://brunelleschi.imss.fi.it/itinerari/luogo/CasaNataleGalileoGalileiCasaAmmannati.html\",\n" +
         "          \"img_name\": \"casa_ammannati\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.723309,\n" +
-        "              \"longitude\": 10.394162\n" +
+        "              \"latitude\":  43.716378,\n" +
+        "              \"longitude\": 10.406247\n" +
+        "            }\n" +
+        "          }\n" +
+        "        },\n" +
+        "        {\n" +
+        "          \"name\": \"Casa Bocca\",\n" +
+        "          \"description\": \"Nel novembre 1563 Vincenzo Galilei stipulò un contratto di affitto per una casa di proprietà della Famiglia Bocca in Pisa, dove andò ad abitare con la moglie Giulia Ammannati e dove teneva lezioni di musica. Una lapida fu apposta nel III centenario della morte di Galileo ed è tuttora visibile all'angolo tra Borgo Largo e Via Mercanti.\",\n" +
+        "          \"content_url\": \"https://www.unipi.it/index.php/tutte-le-news/item/3677-la-dimora-natale-di-galileo-l%E2%80%99enigma-delle-tre-case\",\n" +
+        "          \"img_name\": \"casa_borgo\",\n" +
+        "          \"beacon\": {\n" +
+        "            \"label\": \"aaaa\",\n" +
+        "            \"coordinates\": {\n" +
+        "              \"latitude\":  43.717397, \n" +
+        "              \"longitude\": 10.402257\n" +
         "            }\n" +
         "          }\n" +
         "        }\n" +
