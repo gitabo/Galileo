@@ -2,6 +2,7 @@ package com.example.utente10.galileo;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
@@ -27,10 +28,14 @@ import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -114,6 +119,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             pos = new LatLng(m.getCenter().getLatitude(), m.getCenter().getLongitude());
             mMap.addMarker(new MarkerOptions().title(m.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
             builder.include(pos);
+
+            //Show area around macroarea marker
+            Circle circle = mMap.addCircle(new CircleOptions()
+                    .center(pos)
+                    .radius(m.getRadius())
+                    .strokeColor(Color.RED)
+                    .strokeWidth(3f)
+                    .fillColor(Color.argb(70,150,50,50)));
+
             i++;
         }
         if (i > 1) {

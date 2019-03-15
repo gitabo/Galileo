@@ -74,26 +74,26 @@ val macroareasList: String = "{\n" +
         "        \"latitude\": 43.717562,\n" +
         "        \"longitude\": 10.398304\n" +
         "      },\n" +
-        "      \"radius\": 400,\n" +
+        "      \"radius\": 200,\n" +
         "      \"img\": \"sapienza\",\n" +
         "      \"description\": \"L'Università di Pisa (UniPi) è una delle più antiche università italiane e d'Europa. Fondata nel 1343, è il secondo ateneo in Toscana dopo Firenze e l'ottavo in Italia. Tra i luoghi presenti in quest'area si trovano Palazzo della Sapienza e Palazzo alla Giornata.\",\n" +
         "      \"landmarks\": [\n" +
         "        {\n" +
-        "          \"name\": \"Palazzo della Sapienza\",\n" +
-        "          \"description\": \"L’ingresso all’Aula Magna Storica conserva al suo interno una statua di Galileo Galilei scolpita da P.E. Demi nel 1839. Dalla loggia superiore si accede all’Aula Magna Nuova eseguita nel 1923 e alla Biblioteca Universitaria ricca di volumi e periodici con più di un centinaio di incunaboli, manoscritti e lettere, fra le quali una di Galileo sulla caduta dei gravi.\",\n" +
-        "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_della_Sapienza\",\n" +
-        "          \"img_name\": \"sapienza\",\n" +
+        "          \"name\": \"Domus Galilaeana\",\n" +
+        "          \"description\": \"La Domus Galilaeana è un'istituzione culturale di Pisa. In particolare l'istituzione raccoglie tutte le pubblicazioni antiche e moderne su Galileo e coordina gli studi di storia della scienza, grazie a un fornitissimo archivio e ad un'importante biblioteca specializzata.\",\n" +
+        "          \"content_url\": \"https://it.wikipedia.org/wiki/Domus_Galilaeana\",\n" +
+        "          \"img_name\": \"domus\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"zhje\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\": 43.717277,\n" +
-        "              \"longitude\": 10.399644\n" +
+        "              \"latitude\": 43.718395,\n" +
+        "              \"longitude\": 10.397262\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
         "        {\n" +
         "          \"name\": \"Palazzo alla Giornata\",\n" +
-        "          \"description\": \" La sala rossa del palazzo alla Giornata, sede del rettorato, è stata intitolata a Galileo Galilei ed impreziosita di un ritratto del celebre fisico pisano che diede inizio ad un nuovo corso della scienza: si tratta di una replica del quadro secentesco dello scienziato, opera di Justus Sustermann, custodito al museo degli Uffizi.\",\n" +
+        "          \"description\": \"La sala rossa del palazzo alla Giornata, sede del rettorato, è stata intitolata a Galileo Galilei ed impreziosita di un ritratto del celebre fisico pisano che diede inizio ad un nuovo corso della scienza: si tratta di una replica del quadro secentesco dello scienziato, opera di Justus Sustermann, custodito al museo degli Uffizi.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_alla_Giornata\",\n" +
         "          \"img_name\": \"rettorato\",\n" +
         "          \"beacon\": {\n" +
@@ -112,21 +112,21 @@ val macroareasList: String = "{\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"aaac\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.716342, \n" +
+        "              \"latitude\": 43.716342,\n" +
         "              \"longitude\": 10.397031\n" +
         "            }\n" +
         "          }\n" +
         "        },\n" +
         "        {\n" +
-        "          \"name\": \"Domus Galilaeana\",\n" +
-        "          \"description\": \"La Domus Galilaeana è un'istituzione culturale di Pisa. In particolare l'istituzione raccoglie tutte le pubblicazioni antiche e moderne su Galileo e coordina gli studi di storia della scienza, grazie a un fornitissimo archivio e ad un'importante biblioteca specializzata.\",\n" +
-        "          \"content_url\": \"https://it.wikipedia.org/wiki/Domus_Galilaeana\",\n" +
-        "          \"img_name\": \"domus\",\n" +
+        "          \"name\": \"Palazzo della Sapienza\",\n" +
+        "          \"description\": \"L’ingresso all’Aula Magna Storica conserva al suo interno una statua di Galileo Galilei scolpita da P.E. Demi nel 1839. Dalla loggia superiore si accede all’Aula Magna Nuova eseguita nel 1923 e alla Biblioteca Universitaria ricca di volumi e periodici con più di un centinaio di incunaboli, manoscritti e lettere, fra le quali una di Galileo sulla caduta dei gravi.\",\n" +
+        "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_della_Sapienza\",\n" +
+        "          \"img_name\": \"sapienza\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"zhje\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.718395, \n" +
-        "              \"longitude\": 10.397262\n" +
+        "              \"latitude\": 43.717277,\n" +
+        "              \"longitude\": 10.399644\n" +
         "            }\n" +
         "          }\n" +
         "        }\n" +
@@ -138,7 +138,7 @@ val macroareasList: String = "{\n" +
         "        \"latitude\": 43.716918,\n" +
         "        \"longitude\": 10.404211\n" +
         "      },\n" +
-        "      \"radius\": 300,\n" +
+        "      \"radius\": 200,\n" +
         "      \"img\": \"casa\",\n" +
         "      \"description\": \"Nell'arco dei secoli la casa natale di Galileo Galilei a Pisa è stata localizzata in varie sedi. Nel novembre 1563 Vincenzo Galilei stipulò un contratto di affitto per una casa di proprietà della Famiglia Bocca in Pisa (all'angolo tra Borgo Stretto e Via Mercanti). Successivamente dall'atto di battesimo si risalì alla casa dei nonni di Galileo Galilei, casa Ammannati, dove fu finalmente collocata con ragionevole certezza la dimora natale del grande scienziato pisano.\",\n" +
         "      \"landmarks\": [\n" +
@@ -150,7 +150,7 @@ val macroareasList: String = "{\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"aaad\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.716378,\n" +
+        "              \"latitude\": 43.716378,\n" +
         "              \"longitude\": 10.406247\n" +
         "            }\n" +
         "          }\n" +
@@ -163,7 +163,7 @@ val macroareasList: String = "{\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"aaae\",\n" +
         "            \"coordinates\": {\n" +
-        "              \"latitude\":  43.717397, \n" +
+        "              \"latitude\": 43.717397,\n" +
         "              \"longitude\": 10.402257\n" +
         "            }\n" +
         "          }\n" +
