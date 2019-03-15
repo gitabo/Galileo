@@ -50,10 +50,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private android.support.v7.app.ActionBar actionbar;
     private Bundle areaData;
     private String areaName;
-    private BottomNavigationView infoNav;
     private Landmark landmark;
-    //private List<Marker> markers;
-    private LatLng pos = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,34 +101,34 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setPadding(0, 0, 0, 150);
+        mMap.clear();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         mMap.setMyLocationEnabled(true);
-
-        int i = 0;
         // Add a marker and move the camera
         Realm realm = Realm.getDefaultInstance();
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Landmark l : macroarea.getLandmarks()) {
-            pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-            mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
-            builder.include(pos);
-            i++;
-        }
-        if (i < 2)
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
-        else {
-
-            LatLngBounds bounds = builder.build();
-            int padding = 40; // offset from edges of the map in pixels
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            //googleMap.setOnMapLoadedCallback(() -> googleMap.animateCamera(cu));
-            googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
-        }
+        mMap.setOnMapLoadedCallback(() -> {
+            int i = 0;
+            LatLng pos = null;
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Landmark l : macroarea.getLandmarks()) {
+                pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
+                mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
+                builder.include(pos);
+                i++;
+            }
+            if (i < 2)
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
+            else {
+                LatLngBounds bounds = builder.build();
+                int padding = 60; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                mMap.moveCamera(cu);
+            }
+        });
 
         //UiSettings uiSettings = mMap.getUiSettings();
         //uiSettings.setZoomGesturesEnabled(false);
@@ -148,7 +145,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 View v = getLayoutInflater().inflate(R.layout.landmark_info, null);
                 v.setBackgroundColor(R.color.colorPrimary);
 
-                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude",marker.getPosition().latitude).equalTo("beacon.coordinates.longitude",marker.getPosition().longitude).findFirst();
+                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude", marker.getPosition().latitude).equalTo("beacon.coordinates.longitude", marker.getPosition().longitude).findFirst();
 
                 ImageView im = (ImageView) v.findViewById(R.id.landmark_img);
                 int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
@@ -167,20 +164,17 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         });
 
         //Gestione click sul marker
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                showInformation(marker);
-                return true;
-            }
+        mMap.setOnMarkerClickListener(marker -> {
+            showInformation(marker);
+            return true;
         });
         //
 
         //Click sull'infowindow
         mMap.setOnInfoWindowClickListener(marker -> {
             //infoNav.setVisibility(View.VISIBLE);
-            if(landmark == null)
-                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude",marker.getPosition().latitude).equalTo("beacon.coordinates.longitude",marker.getPosition().longitude).findFirst();
+            if (landmark == null)
+                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude", marker.getPosition().latitude).equalTo("beacon.coordinates.longitude", marker.getPosition().longitude).findFirst();
 
             Intent i1 = new Intent(getApplicationContext(), ContentsActivity.class);
             i1.putExtra("landmarkLabel", landmark.getBeacon().getLabel());

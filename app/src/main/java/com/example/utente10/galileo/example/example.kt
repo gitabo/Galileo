@@ -97,7 +97,7 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_alla_Giornata\",\n" +
         "          \"img_name\": \"rettorato\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"aaab\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.716617,\n" +
         "              \"longitude\": 10.398892\n" +
@@ -110,7 +110,7 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Museo_nazionale_di_palazzo_Reale\",\n" +
         "          \"img_name\": \"palazzo_reale\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"aaac\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\":  43.716342, \n" +
         "              \"longitude\": 10.397031\n" +
@@ -148,7 +148,7 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://brunelleschi.imss.fi.it/itinerari/luogo/CasaNataleGalileoGalileiCasaAmmannati.html\",\n" +
         "          \"img_name\": \"casa_ammannati\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"aaad\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\":  43.716378,\n" +
         "              \"longitude\": 10.406247\n" +
@@ -161,7 +161,7 @@ val macroareasList: String = "{\n" +
         "          \"content_url\": \"https://www.unipi.it/index.php/tutte-le-news/item/3677-la-dimora-natale-di-galileo-l%E2%80%99enigma-delle-tre-case\",\n" +
         "          \"img_name\": \"casa_borgo\",\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"aaae\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\":  43.717397, \n" +
         "              \"longitude\": 10.402257\n" +
