@@ -118,7 +118,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         if (i > 1) {
             LatLngBounds bounds = builder.build();
-            int padding = 40; // offset from edges of the map in pixels need to be different from zero
+            int padding = 80; // offset from edges of the map in pixels need to be different from zero
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         } else {
