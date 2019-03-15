@@ -52,7 +52,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private String areaName;
     private BottomNavigationView infoNav;
     private Landmark landmark;
-    private List<Marker> markers;
+    //private List<Marker> markers;
     private LatLng pos = null;
 
     @Override
@@ -62,8 +62,6 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         areaData = getIntent().getExtras();
         areaName = areaData.getString("macroarea");
-
-        markers = new ArrayList<>();
 
         toolbar = (Toolbar) findViewById(R.id.beacon_toolbar);
         toolbar.setTitle(areaName);
@@ -117,28 +115,21 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
-
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Landmark l : macroarea.getLandmarks()) {
             pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-            markers.add(mMap.addMarker(new MarkerOptions().position(pos).title(l.getName())));
-            markers.get(i).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
+            mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
+            builder.include(pos);
             i++;
         }
-
         if (i < 2)
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
         else {
-            //Center all markers in the map
-            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Marker marker : markers) {
-                builder.include(marker.getPosition());
-                //Debug
-                Toast.makeText(BeaconMapActivity.this,marker.getPosition().toString(), Toast.LENGTH_SHORT).show();
-            }
 
             LatLngBounds bounds = builder.build();
             int padding = 40; // offset from edges of the map in pixels
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            //googleMap.setOnMapLoadedCallback(() -> googleMap.animateCamera(cu));
             googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
         }
 
@@ -156,16 +147,8 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             public View getInfoWindow(Marker marker) {
                 View v = getLayoutInflater().inflate(R.layout.landmark_info, null);
                 v.setBackgroundColor(R.color.colorPrimary);
-                LatLng pos = null;
 
-
-                for (Landmark l : macroarea.getLandmarks()) {
-                    pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                    if (marker.getPosition().equals(pos)) {
-                        landmark = l;
-                        break;
-                    }
-                }
+                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude",marker.getPosition().latitude).equalTo("beacon.coordinates.longitude",marker.getPosition().longitude).findFirst();
 
                 ImageView im = (ImageView) v.findViewById(R.id.landmark_img);
                 int imgId = getResources().getIdentifier(landmark.getImg_name(), "drawable", getPackageName());
@@ -196,52 +179,13 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //Click sull'infowindow
         mMap.setOnInfoWindowClickListener(marker -> {
             //infoNav.setVisibility(View.VISIBLE);
-
-            //reindirizzamento a BeaconMapActivity
-
-            for (Landmark l : macroarea.getLandmarks()) {
-                LatLng pos1 = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                if (marker.getPosition().equals(pos1)) {
-                    landmark = l;
-                    break;
-                }
-            }
+            if(landmark == null)
+                landmark = realm.where(Landmark.class).equalTo("beacon.coordinates.latitude",marker.getPosition().latitude).equalTo("beacon.coordinates.longitude",marker.getPosition().longitude).findFirst();
 
             Intent i1 = new Intent(getApplicationContext(), ContentsActivity.class);
             i1.putExtra("landmarkLabel", landmark.getBeacon().getLabel());
             startActivity(i1);
         });
-        //
-
-        /*
-        mMap.setOnInfoWindowCloseListener(new GoogleMap.OnInfoWindowCloseListener() {
-            @Override
-            public void onInfoWindowClose(Marker marker) {
-                hideBottomNavigationView(infoNav);
-            }
-        });
-
-        infoNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Intent i = new Intent(getApplicationContext(), ContentsActivity.class);
-                //i.putExtra("macroarea",macroarea.getName());
-
-                switch (item.getItemId()) {
-                    case R.id.nav_info:
-                        startActivity(i);
-                        break;
-                    case R.id.nav_img:
-                        startActivity(i);
-                        break;
-                    case R.id.nav_video:
-                        startActivity(i);
-                        break;
-                }
-                return true;
-            }
-        });
-        */
     }
 
     private void showInformation(Marker marker) {
@@ -268,13 +212,5 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     public boolean onSupportNavigateUp() {
         finish();
         return true;
-    }
-
-    private void hideBottomNavigationView(BottomNavigationView view) {
-        view.animate().translationY(view.getHeight());
-    }
-
-    private void showBottomNavigationView(BottomNavigationView view) {
-        view.animate().translationY(0);
     }
 }
