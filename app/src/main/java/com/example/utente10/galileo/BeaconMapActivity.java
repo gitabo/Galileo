@@ -165,6 +165,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(marker -> {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_clicked));
             showInformation(marker);
             return true;
         });
@@ -179,6 +180,10 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             Intent i1 = new Intent(getApplicationContext(), ContentsActivity.class);
             i1.putExtra("landmarkLabel", landmark.getBeacon().getLabel());
             startActivity(i1);
+        });
+
+        mMap.setOnInfoWindowCloseListener(marker -> {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
         });
     }
 

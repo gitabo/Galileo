@@ -145,6 +145,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Gestione click sul marker
         mMap.setOnMarkerClickListener(marker -> {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_clicked));
             showInformation(marker);
             return true;
         });
@@ -191,6 +192,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnInfoWindowClickListener(marker -> {
             //infoNav.setVisibility(View.VISIBLE);
             LatLng pos1 = null;
+
             //reindirizzamento a BeaconMapActivity
 
             macroarea = realm.where(Macroarea.class).equalTo("center.latitude",marker.getPosition().latitude).equalTo("center.longitude",marker.getPosition().longitude).findFirst();
@@ -198,6 +200,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent i1 = new Intent(getApplicationContext(), BeaconMapActivity.class);
             i1.putExtra("macroarea", macroarea.getName());
             startActivity(i1);
+        });
+
+        mMap.setOnInfoWindowCloseListener(marker -> {
+            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker));
         });
 
     }
