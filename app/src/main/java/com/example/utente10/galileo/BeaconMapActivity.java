@@ -1,20 +1,27 @@
 package com.example.utente10.galileo;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,11 +58,14 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private Bundle areaData;
     private String areaName;
     private Landmark landmark;
+    private float density;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon_map);
+
+        density = this.getResources().getDisplayMetrics().density;
 
         areaData = getIntent().getExtras();
         areaName = areaData.getString("macroarea");
@@ -110,18 +120,63 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
+        LinearLayout landmarksList = (LinearLayout)findViewById(R.id.landmarks_list);
+
+
+        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/lato.ttf");
+
         mMap.setOnMapLoadedCallback(() -> {
             int i = 0;
             LatLng pos = null;
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+
             for (Landmark l : macroarea.getLandmarks()) {
+                //Add marker to the map
                 pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
+                Marker marker = mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
                 builder.include(pos);
+                //
+
+                //Add landmark to the ScrollView
+                LinearLayout landmarkItem = new LinearLayout(this);
+                float height = getResources().getDimension(R.dimen.scrollview_item);
+                landmarkItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)height));
+                landmarkItem.setGravity(Gravity.CENTER_VERTICAL);
+
+                ImageView placeIcon = new ImageView(this);
+                placeIcon.setImageResource(R.drawable.ic_place_black_24dp);
+                placeIcon.setColorFilter(Color.WHITE);
+                height = getResources().getDimension(R.dimen.scrollview_icon);
+                placeIcon.setLayoutParams(new LinearLayout.LayoutParams((int)height, (int)height));
+
+                TextView landmarkText = new TextView(this);
+                landmarkText.setText(l.getName());
+                landmarkText.setTextColor(Color.WHITE);
+                landmarkText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+                landmarkText.setTypeface(tf);
+                landmarkText.setGravity(Gravity.CENTER_VERTICAL);
+                landmarkText.setForegroundGravity(Gravity.CENTER_VERTICAL);
+
+                landmarkItem.setOrientation(LinearLayout.HORIZONTAL);
+                landmarkItem.addView(placeIcon);
+                landmarkItem.addView(landmarkText);
+                landmarkItem.setClickable(true);
+                landmarksList.addView(landmarkItem);
+
+                landmarkItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_clicked));
+                        showInformation(marker);
+                    }
+                });
+                //
+
                 i++;
             }
             if (i < 2)
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
             else {
                 LatLngBounds bounds = builder.build();
                 int padding = 60; // offset from edges of the map in pixels
@@ -202,6 +257,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         //
 
         marker.showInfoWindow();
+
         CameraUpdate center = CameraUpdateFactory.newLatLng(aboveMarkerLatLng);
         mMap.moveCamera(center);
     }

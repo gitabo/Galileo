@@ -1,21 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mapcontainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".BeaconMapActivity">
-
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/beacon_map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".BeaconMapActivity" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/beacon_toolbar"
@@ -24,6 +12,51 @@
         app:titleTextColor="@color/white"
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarColoredBackArrow" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/mapcontainer">
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/beacon_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".BeaconMapActivity" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@color/colorPrimaryDark"
+                >
+                <LinearLayout
+                    android:id="@+id/landmarks_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clickable="true">
+
+                </LinearLayout>
+            </ScrollView>
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/tutorial_box"
@@ -35,15 +68,15 @@
 
         <Button
             android:id="@+id/close"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginTop="7dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:fontFamily="@font/lato"
-            android:background="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textColor="@color/white"
-            android:text="X"
+            android:text="CHIUDI"
             />
 
         <TextView
@@ -78,4 +111,6 @@
 
 
 </RelativeLayout>
+
+
 
