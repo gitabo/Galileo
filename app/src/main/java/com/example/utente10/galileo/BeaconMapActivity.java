@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -122,8 +123,11 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         LinearLayout landmarksList = (LinearLayout)findViewById(R.id.landmarks_list);
 
-
         Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/lato.ttf");
+        //Animation onclick scrollview item
+        TypedValue outValue = new TypedValue();
+        this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+        //
 
         mMap.setOnMapLoadedCallback(() -> {
             int i = 0;
@@ -138,7 +142,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 builder.include(pos);
                 //
 
-                //Add landmark to the ScrollView
+                /*** Add landmark to the ScrollView linearlayout ***/
                 LinearLayout landmarkItem = new LinearLayout(this);
                 float height = getResources().getDimension(R.dimen.scrollview_item);
                 landmarkItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)height));
@@ -157,13 +161,16 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 landmarkText.setTypeface(tf);
                 landmarkText.setGravity(Gravity.CENTER_VERTICAL);
                 landmarkText.setForegroundGravity(Gravity.CENTER_VERTICAL);
-
                 landmarkItem.setOrientation(LinearLayout.HORIZONTAL);
                 landmarkItem.addView(placeIcon);
                 landmarkItem.addView(landmarkText);
+                landmarkItem.setBackgroundResource(outValue.resourceId);
                 landmarkItem.setClickable(true);
+                landmarkItem.setFocusable(true);
                 landmarksList.addView(landmarkItem);
+                /***/
 
+                //Focus on the marker when user selects a landmark from the list
                 landmarkItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
