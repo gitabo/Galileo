@@ -16,4 +16,8 @@
     <string name="welcome">Benvenuto in GalileoPisaTour!</string>
     <string name="tutorial_maps">> Tap su un punto GalileoPisaTour nella mappa\n<i>oppure...</i>\n> Ricevi le notifiche quando sei vicino a un\'area GalileoPisaTour</string>
     <string name="tutorial_beacon">> Tap su un punto GalileoPisaTour nella mappa\n<i>oppure...</i>\n> Ricevi le notifiche quando visiti i luoghi GalileoPisaTour</string>
+    <string name="about">Developed by Mauro Abozzi, Gerardo Giuseppe Piegari \n\n GalileoPisaTour è un\'app che permette di visualizzare contenuti e curiosità sui luoghi
+    legati alla storia di Galileo a Pisa. GalileoPisaTour invierà una notifica che reindirizza ai
+        relativi contenuti appena si entra in un\'area con dei luoghi di interesse e quando si visita uno di questi . Un altro modo per accedere alle informazioni sui
+        luoghi GalileoPisaTour è l\'interazione con la mappa.</string>
 </resources>

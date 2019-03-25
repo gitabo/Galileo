@@ -2,16 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single" android:id="@+id/nav_list">
         <item
-            android:id="@+id/nav_notifications"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="Notifiche" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_photo_library_black_24dp"
-            android:title="Galleria" />
-        <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Impostazioni" />
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="About GalileoPisaTour" />
     </group>
 </menu>

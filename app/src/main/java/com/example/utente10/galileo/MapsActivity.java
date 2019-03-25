@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -88,6 +89,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Gestione click item del menu laterale
+        NavigationView navigation = (NavigationView) findViewById(R.id.nav_view);
+        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch (id) {
+                    case R.id.nav_about:
+                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
+        //
     }
 
 
@@ -197,9 +215,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             macroarea = realm.where(Macroarea.class).equalTo("center.latitude",marker.getPosition().latitude).equalTo("center.longitude",marker.getPosition().longitude).findFirst();
 
-            Intent i1 = new Intent(getApplicationContext(), BeaconMapActivity.class);
-            i1.putExtra("macroarea", macroarea.getName());
-            startActivity(i1);
+            Intent intent = new Intent(getApplicationContext(), BeaconMapActivity.class);
+            intent.putExtra("macroarea", macroarea.getName());
+            startActivity(intent);
         });
 
         mMap.setOnInfoWindowCloseListener(marker -> {
@@ -215,6 +233,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 //hideBottomNavigationView(bottomNav);
+                drawerView.bringToFront();
                 super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -273,12 +292,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_settings) {
-            return true;
-        }*/
 
         // Activate the navigation drawer toggle
         if (mDrawerToggle.onOptionsItemSelected(item)) {

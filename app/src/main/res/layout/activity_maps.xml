@@ -14,8 +14,6 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ToolbarColoredBackArrow" />
 
-
-
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -55,15 +53,15 @@
 
         <Button
             android:id="@+id/close"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_marginTop="7dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:fontFamily="@font/lato"
-            android:background="@color/colorPrimary"
+            android:background="@android:color/transparent"
             android:textColor="@color/white"
-            android:text="X"
+            android:text="CHIUDI"
             />
 
         <TextView
@@ -71,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="70dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/michail"
             android:text="@string/welcome"
