@@ -50,8 +50,9 @@ class TrackerService : Service() {
             override fun onIBeaconDiscovered(ibeacon: IBeaconDevice, region: IBeaconRegion?) {
                 Log.i("Found Beacon:", "label: " + ibeacon.uniqueId)
                 val landmark = getLocationFromBeacon(ibeacon.uniqueId)
-                if (landmark != null)
+                if (landmark != null) {
                     sendNotificationForLandmark(uniqueTracker as Context, landmark)
+                }
             }
         }
     }
@@ -159,6 +160,13 @@ class TrackerService : Service() {
 
     private fun getLocationFromBeacon(beacon: String): Landmark? {
         val realm = Realm.getDefaultInstance()
-        return realm.where(Landmark::class.java).equalTo("beacon.label", beacon).findFirst()
+        val land = realm.where(Landmark::class.java).equalTo("beacon.label", beacon).findFirst()
+        //set landmark as visited
+        if (land != null) {
+            realm.beginTransaction()
+            land.visited = true
+            realm.commitTransaction()
+        }
+        return land
     }
 }

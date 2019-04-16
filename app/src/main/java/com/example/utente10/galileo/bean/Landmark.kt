@@ -10,4 +10,6 @@ open class Landmark : RealmModel {
     var description: String? = null
     var content_url: String? = null
     var img_name: String? = null
+    var visited : Boolean = false
+    var sent : Boolean = false
 }
