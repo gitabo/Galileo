@@ -12,6 +12,9 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import com.example.utente10.galileo.*
+import com.example.utente10.galileo.backend.ErrorListener
+import com.example.utente10.galileo.backend.ResponseListener
+import com.example.utente10.galileo.backend.sendStatistics
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.bean.Macroarea
 import com.example.utente10.galileo.notification.createNotificationChannel
@@ -24,6 +27,8 @@ import com.kontakt.sdk.android.common.profile.IBeaconDevice
 import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleIBeaconListener
 import com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener
 import io.realm.Realm
+import org.jetbrains.anko.doAsync
+import java.lang.Error
 
 
 class TrackerService : Service() {
@@ -66,7 +71,7 @@ class TrackerService : Service() {
 
         createNotificationChannel(this)
 
-        val provider = if(BuildConfig.DEBUG) LocationManager.GPS_PROVIDER else LocationManager.NETWORK_PROVIDER
+        val provider = if (BuildConfig.DEBUG) LocationManager.GPS_PROVIDER else LocationManager.NETWORK_PROVIDER
 
         locationManager.requestLocationUpdates(provider, 10000, 10f, object : LocationListener {
             override fun onLocationChanged(location: Location) {
@@ -90,6 +95,28 @@ class TrackerService : Service() {
         proximityManager.setIBeaconListener(iBeaconListener)
         //Now scan start inside macroarea
         //beaconScanActivation()
+
+        //sending new visited landmarks
+        doAsync {
+            val realm = Realm.getDefaultInstance()
+            val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
+
+            if (lands.isNotEmpty()) {
+                sendStatistics(application, lands, object : ResponseListener {
+                    override fun onResponse(response: String) {
+                        realm.beginTransaction()
+                        lands.setBoolean("sent", true)
+                        realm.commitTransaction()
+                    }
+
+                }, object : ErrorListener {
+                    override fun onError(error: String?) {
+                        //nothing To Do
+                    }
+
+                })
+            }
+        }
 
         return START_STICKY
     }
@@ -162,7 +189,7 @@ class TrackerService : Service() {
         val realm = Realm.getDefaultInstance()
         val land = realm.where(Landmark::class.java).equalTo("beacon.label", beacon).findFirst()
         //set landmark as visited
-        if (land != null) {
+        if (land != null && !land.visited) {
             realm.beginTransaction()
             land.visited = true
             realm.commitTransaction()

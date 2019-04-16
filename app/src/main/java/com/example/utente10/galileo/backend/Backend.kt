@@ -9,6 +9,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.example.macroareasList
+import io.realm.RealmResults
 import retrofit2.http.POST
 import kotlin.coroutines.coroutineContext
 
@@ -51,9 +52,9 @@ fun getMacroareas(app: Context, responseListener: ResponseListener, errorListene
     responseListener.onResponse(macroareasList);
 }
 
-fun sendStatistics(app: Context,landMarkList: List<Landmark>, responseListener: ResponseListener, errorListener: ErrorListener){
+fun sendStatistics(app: Context,landmarkList: RealmResults<Landmark>, responseListener: ResponseListener, errorListener: ErrorListener){
     val parameters = HashMap<String, String>()
-    for (l in landMarkList) {
+    for (l in landmarkList) {
         parameters.put("label", l.beacon?.label!!)
     }
     sendRequest(app, Request.Method.POST, baseUrl+ sendStatistics, parameters, responseListener, errorListener)
