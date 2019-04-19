@@ -15,6 +15,7 @@ import android.view.WindowManager;
 
 import com.example.utente10.galileo.backend.BackendKt;
 import com.example.utente10.galileo.backend.MacroareasResponse;
+import com.example.utente10.galileo.bean.DBVersion;
 import com.example.utente10.galileo.bean.Macroarea;
 import com.example.utente10.galileo.service.TrackerService;
 import com.google.gson.Gson;
@@ -41,20 +42,29 @@ public class MainActivity extends AppCompatActivity {
 
         Realm realm = Realm.getDefaultInstance();
 
-        //TODO: check db version
-        if (realm.where(Macroarea.class).findAll().size() == 0) {
-            BackendKt.getMacroareas(getApplication(),
-                    response -> {
-                        Gson gson = new Gson();
-                        MacroareasResponse macroareasResponse = gson.fromJson(response, MacroareasResponse.class);
-                        //Inserting data in db
-                        realm.beginTransaction();
-                        realm.insertOrUpdate(macroareasResponse.getMacroareas());
-                        realm.commitTransaction();
-                    },
-                    error -> {
-                    });
-        }
+        BackendKt.getDBVersion(getApplication(), response -> {
+                    Gson gson = new Gson();
+                    DBVersion dbv = gson.fromJson(response, DBVersion.class);
+                    DBVersion db = realm.where(DBVersion.class).findFirst();
+                    if (dbv.getVersion() > db.getVersion()) {
+                        BackendKt.getMacroareas(getApplication(),
+                                response2 -> {
+                                    MacroareasResponse macroareasResponse = gson.fromJson(response2, MacroareasResponse.class);
+                                    //Inserting data in db
+                                    realm.beginTransaction();
+                                    realm.insertOrUpdate(macroareasResponse.getMacroareas());
+                                    realm.delete(DBVersion.class);
+                                    realm.insert(dbv);
+                                    realm.commitTransaction();
+                                },
+                                error -> {
+                                });
+                    }
+                },
+                error -> {
+                });
+
+
         requestPermission();
 
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -89,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 //TODO: dire all'utente che deve abilitare la posizione se vuole utilizzare l'app
                 //finish();
             } else {*/
-                // Permission is not granted
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        FINE_LOCATION_REQUEST);
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    FINE_LOCATION_REQUEST);
             //}
         } else {
             //Tracker Activation

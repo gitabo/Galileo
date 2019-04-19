@@ -19,6 +19,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Il lampadario per incenso al centro della navata è detto di Galileo Galilei, perché la leggenda vuole che il grande scienziato abbia formulato la sua teoria sull'isocronismo del pendolo guardandone l'oscillazione dal soffitto della navata. L'originale, diverso e molto più piccolo, però si trova oggi nella cappella Aulla in Campo Santo.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Duomo_di_Pisa\",\n" +
         "          \"img_name\": \"cattedrale\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"mipj\",\n" +
         "            \"coordinates\": {\n" +
@@ -32,6 +33,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Iniziato il 15 agosto 1152 sotto la direzione dell'architetto pisano Diotisalvi, il Battistero, capolavoro dell'architettura romanica, fu ampliato in più riprese nel corso del XIII secolo (da Nicola e Giovanni Pisano), del XIV secolo e quindi nell'800. Il 19 febbraio 1564 vi veniva battezzato Galileo Galilei\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Battistero_di_San_Giovanni_(Pisa)\",\n" +
         "          \"img_name\": \"battistero\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"MKoU\",\n" +
         "            \"coordinates\": {\n" +
@@ -45,6 +47,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Si ricorda spesso la leggenda secondo la quale Galileo, per dimostrare la sua legge di caduta dei gravi, sarebbe salito sulla torre di Pisa e avrebbe fatto cadere oggetti di materiale diverso per verificare la fondatezza delle sue teorie. Questo ” racconto ” è falso ed è solo una leggenda per mancanza di prove storiche.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Torre_di_Pisa\",\n" +
         "          \"img_name\": \"torre\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"mgvd\",\n" +
         "            \"coordinates\": {\n" +
@@ -58,6 +61,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Sul braccio nord si trova la cappella Aulla, qui è conservata l'originale lampada di Galileo, un tempo sospesa in cattedrale e che effettivamente il grande scienziato pisano vide oscillare e che gli fornì l'idea per la sua teoria sull'isocronismo del pendolo.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Camposanto_monumentale\",\n" +
         "          \"img_name\": \"camposanto\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"ekuu\",\n" +
         "            \"coordinates\": {\n" +
@@ -83,6 +87,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"La Domus Galilaeana è un'istituzione culturale di Pisa. In particolare l'istituzione raccoglie tutte le pubblicazioni antiche e moderne su Galileo e coordina gli studi di storia della scienza, grazie a un fornitissimo archivio e ad un'importante biblioteca specializzata.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Domus_Galilaeana\",\n" +
         "          \"img_name\": \"domus\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"zhje\",\n" +
         "            \"coordinates\": {\n" +
@@ -96,8 +101,9 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"La sala rossa del palazzo alla Giornata, sede del rettorato, è stata intitolata a Galileo Galilei ed impreziosita di un ritratto del celebre fisico pisano che diede inizio ad un nuovo corso della scienza: si tratta di una replica del quadro secentesco dello scienziato, opera di Justus Sustermann, custodito al museo degli Uffizi.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_alla_Giornata\",\n" +
         "          \"img_name\": \"rettorato\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaab\",\n" +
+        "            \"label\": \"aaaa\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.716617,\n" +
         "              \"longitude\": 10.398892\n" +
@@ -109,8 +115,9 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Il museo ha sede nella residenza di corte realizzata tra 1583 e 1587 da Bernardo Buontalenti per Francesco I de’ Medici. La nuova costruzione inglobò alcuni edifici preesistenti, tra cui la duecentesca torre della Verga d’Oro dove Galileo fece osservare al granduca, con il suo cannocchiale, i satelliti di Giove.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Museo_nazionale_di_palazzo_Reale\",\n" +
         "          \"img_name\": \"palazzo_reale\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaac\",\n" +
+        "            \"label\": \"aaab\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.716342,\n" +
         "              \"longitude\": 10.397031\n" +
@@ -122,8 +129,9 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"L’ingresso all’Aula Magna Storica conserva al suo interno una statua di Galileo Galilei scolpita da P.E. Demi nel 1839. Dalla loggia superiore si accede all’Aula Magna Nuova eseguita nel 1923 e alla Biblioteca Universitaria ricca di volumi e periodici con più di un centinaio di incunaboli, manoscritti e lettere, fra le quali una di Galileo sulla caduta dei gravi.\",\n" +
         "          \"content_url\": \"https://it.wikipedia.org/wiki/Palazzo_della_Sapienza\",\n" +
         "          \"img_name\": \"sapienza\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
-        "            \"label\": \"aaaa\",\n" +
+        "            \"label\": \"aaac\",\n" +
         "            \"coordinates\": {\n" +
         "              \"latitude\": 43.717277,\n" +
         "              \"longitude\": 10.399644\n" +
@@ -147,6 +155,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"La casa natale di Galileo Galilei apparteneva alla famiglia della madre ed era detta casa Ammannati. Giulia Ammannati di Villa Basilica di Pescia, madre di Galileo, acquistò la casa in Pisa con la dote nuziale di 100 scudi d'oro ricevuti dallo zio Leone al momento del matrimonio con Vincenzo Galilei, musico, padre di Galileo.\",\n" +
         "          \"content_url\": \"https://brunelleschi.imss.fi.it/itinerari/luogo/CasaNataleGalileoGalileiCasaAmmannati.html\",\n" +
         "          \"img_name\": \"casa_ammannati\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"aaad\",\n" +
         "            \"coordinates\": {\n" +
@@ -160,6 +169,7 @@ val macroareasList: String = "{\n" +
         "          \"description\": \"Nel novembre 1563 Vincenzo Galilei stipulò un contratto di affitto per una casa di proprietà della Famiglia Bocca in Pisa, dove andò ad abitare con la moglie Giulia Ammannati e dove teneva lezioni di musica. Una lapida fu apposta nel III centenario della morte di Galileo ed è tuttora visibile all'angolo tra Borgo Largo e Via Mercanti.\",\n" +
         "          \"content_url\": \"https://www.unipi.it/index.php/tutte-le-news/item/3677-la-dimora-natale-di-galileo-l%E2%80%99enigma-delle-tre-case\",\n" +
         "          \"img_name\": \"casa_borgo\",\n" +
+        "          \"visits\": 0,\n" +
         "          \"beacon\": {\n" +
         "            \"label\": \"aaae\",\n" +
         "            \"coordinates\": {\n" +

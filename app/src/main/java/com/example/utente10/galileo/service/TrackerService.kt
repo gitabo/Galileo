@@ -16,7 +16,6 @@ import com.example.utente10.galileo.backend.ErrorListener
 import com.example.utente10.galileo.backend.Response
 import com.example.utente10.galileo.backend.ResponseListener
 import com.example.utente10.galileo.backend.sendStatistics
-import com.example.utente10.galileo.bean.Beacon
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.bean.Macroarea
 import com.example.utente10.galileo.notification.createNotificationChannel

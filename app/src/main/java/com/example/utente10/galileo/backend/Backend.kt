@@ -20,7 +20,11 @@ import org.json.JSONObject
 //request url
 val ipAddress = "http://192.168.1.227:8080/"
 val baseUrl = "${ipAddress}GalileoServer/"
+val getDBVersion = "getDBVersion"
+val getMacroareas = "getMacroareas"
 val updateStatistics = "updateStatistics"
+
+
 
 interface ResponseListener {
     fun onResponse(response: String)
@@ -69,11 +73,12 @@ fun sendRequest(app: Context, method: Int, url: String, parameters: Map<String, 
     (app as Application).requestQueue.add(stringReq)
 }
 
-fun getMacroareas(app: Context, responseListener: ResponseListener, errorListener: ErrorListener) {
+fun getDBVersion(app: Context, responseListener: ResponseListener, errorListener: ErrorListener) {
+    sendRequest(app, Request.Method.GET, baseUrl+ getDBVersion, JSONObject(), responseListener, errorListener)
+}
 
-    //val map = HashMap<String, String>()
-    //sendRequest(app, Request.Method.GET, macroareaUrl, map, responseListener, errorListener)
-    responseListener.onResponse(macroareasList)
+fun getMacroareas(app: Context, responseListener: ResponseListener, errorListener: ErrorListener) {
+    sendRequest(app, Request.Method.GET, baseUrl+ getMacroareas, JSONObject(), responseListener, errorListener)
 }
 
 fun sendStatistics(app: Context, labels: ArrayList<String>, responseListener: ResponseListener, errorListener: ErrorListener) {
