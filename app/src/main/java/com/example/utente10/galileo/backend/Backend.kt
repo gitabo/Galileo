@@ -12,16 +12,15 @@ import com.android.volley.toolbox.StringRequest
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.example.macroareasList
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.realm.RealmResults
 import org.json.JSONArray
-import retrofit2.http.POST
-import kotlin.coroutines.coroutineContext
+import org.json.JSONObject
 
 //request url
-val baseUrl = ""
-val sendStatistics = ""
+val ipAddress = "http://192.168.1.227:8080/"
+val baseUrl = "${ipAddress}GalileoServer/"
+val updateStatistics = "updateStatistics"
 
 interface ResponseListener {
     fun onResponse(response: String)
@@ -31,10 +30,11 @@ interface ErrorListener {
     fun onError(error: String?)
 }
 
-fun sendRequest(app: Context, method: Int, url: String, parameters: JSONArray, responseListener: ResponseListener, errorListener: ErrorListener) {
+fun sendRequest(app: Context, method: Int, url: String, json: JSONObject, responseListener: ResponseListener, errorListener: ErrorListener) {
 
-    val jsonReq = JsonArrayRequest(method, url, parameters,
-            Response.Listener<JSONArray> { response ->
+
+    val jsonReq = JsonObjectRequest(method, url, json,
+            Response.Listener<JSONObject> { response ->
                 responseListener.onResponse(response.toString())
             },
             Response.ErrorListener { error ->
@@ -73,11 +73,12 @@ fun getMacroareas(app: Context, responseListener: ResponseListener, errorListene
 
     //val map = HashMap<String, String>()
     //sendRequest(app, Request.Method.GET, macroareaUrl, map, responseListener, errorListener)
-    responseListener.onResponse(macroareasList);
+    responseListener.onResponse(macroareasList)
 }
 
-fun sendStatistics(app: Context, landmarkList: RealmResults<Landmark>, responseListener: ResponseListener, errorListener: ErrorListener) {
-    val parameters = JSONArray(Gson().toJson(landmarkList))
-    sendRequest(app, Request.Method.POST, baseUrl + sendStatistics, parameters, responseListener, errorListener)
+fun sendStatistics(app: Context, labels: ArrayList<String>, responseListener: ResponseListener, errorListener: ErrorListener) {
+    val visits = Visits(labels)
+    val json = JSONObject(Gson().toJson(visits))
+    sendRequest(app, Request.Method.POST, baseUrl + updateStatistics, json, responseListener, errorListener)
 }
 

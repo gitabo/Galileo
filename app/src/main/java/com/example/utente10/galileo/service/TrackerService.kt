@@ -13,13 +13,16 @@ import android.os.IBinder
 import android.util.Log
 import com.example.utente10.galileo.*
 import com.example.utente10.galileo.backend.ErrorListener
+import com.example.utente10.galileo.backend.Response
 import com.example.utente10.galileo.backend.ResponseListener
 import com.example.utente10.galileo.backend.sendStatistics
+import com.example.utente10.galileo.bean.Beacon
 import com.example.utente10.galileo.bean.Landmark
 import com.example.utente10.galileo.bean.Macroarea
 import com.example.utente10.galileo.notification.createNotificationChannel
 import com.example.utente10.galileo.notification.sendNotificationForLandmark
 import com.example.utente10.galileo.notification.sendNotificationForMacroarea
+import com.google.gson.Gson
 import com.kontakt.sdk.android.ble.manager.ProximityManager
 import com.kontakt.sdk.android.ble.manager.ProximityManagerFactory
 import com.kontakt.sdk.android.common.profile.IBeaconRegion
@@ -28,7 +31,7 @@ import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleIBeaconListene
 import com.kontakt.sdk.android.ble.manager.listeners.IBeaconListener
 import io.realm.Realm
 import org.jetbrains.anko.doAsync
-import java.lang.Error
+import kotlin.reflect.KMutableProperty1
 
 
 class TrackerService : Service() {
@@ -100,20 +103,22 @@ class TrackerService : Service() {
         doAsync {
             val realm = Realm.getDefaultInstance()
             val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
-
-            if (lands.isNotEmpty()) {
-                sendStatistics(application, lands, object : ResponseListener {
+            val labels = ArrayList<String>()
+            lands.forEach { land -> labels.add(land.beacon!!.label!!) }
+            if (labels.isNotEmpty()) {
+                sendStatistics(application, labels, object : ResponseListener {
                     override fun onResponse(response: String) {
-                        realm.beginTransaction()
-                        lands.setBoolean("sent", true)
-                        realm.commitTransaction()
+                        val res = Gson().fromJson(response, Response::class.java)
+                        if (res.success) {
+                            realm.beginTransaction()
+                            lands.setBoolean("sent", true)
+                            realm.commitTransaction()
+                        }
                     }
-
                 }, object : ErrorListener {
                     override fun onError(error: String?) {
                         //nothing To Do
                     }
-
                 })
             }
         }
