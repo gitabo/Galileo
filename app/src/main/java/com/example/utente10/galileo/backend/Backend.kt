@@ -1,6 +1,5 @@
 package com.example.utente10.galileo.backend
 
-
 import com.example.utente10.galileo.Application
 import android.content.Context
 import com.android.volley.DefaultRetryPolicy

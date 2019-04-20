@@ -109,6 +109,8 @@ class TrackerService : Service() {
                     override fun onResponse(response: String) {
                         val res = Gson().fromJson(response, Response::class.java)
                         if (res.success) {
+                            val realm = Realm.getDefaultInstance()
+                            val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
                             realm.beginTransaction()
                             lands.setBoolean("sent", true)
                             realm.commitTransaction()

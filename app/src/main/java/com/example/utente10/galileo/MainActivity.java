@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     DBVersion dbv = gson.fromJson(response, DBVersion.class);
                     DBVersion db = realm.where(DBVersion.class).findFirst();
-                    if (dbv.getVersion() > db.getVersion()) {
+                    if (db == null || dbv.getVersion() > db.getVersion()) {
                         BackendKt.getMacroareas(getApplication(),
                                 response2 -> {
                                     MacroareasResponse macroareasResponse = gson.fromJson(response2, MacroareasResponse.class);

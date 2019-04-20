@@ -5,5 +5,5 @@ import io.realm.annotations.RealmClass
 
 @RealmClass
 open class DBVersion : RealmModel {
-    val version: Int? = null
+    var version: Int? = null
 }
