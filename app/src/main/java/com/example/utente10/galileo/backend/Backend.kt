@@ -5,15 +5,9 @@ import android.content.Context
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.example.utente10.galileo.bean.Landmark
-import com.example.utente10.galileo.example.macroareasList
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import io.realm.RealmResults
-import org.json.JSONArray
 import org.json.JSONObject
 
 //request url
@@ -80,7 +74,7 @@ fun getMacroareas(app: Context, responseListener: ResponseListener, errorListene
     sendRequest(app, Request.Method.GET, baseUrl+ getMacroareas, JSONObject(), responseListener, errorListener)
 }
 
-fun sendStatistics(app: Context, labels: ArrayList<String>, responseListener: ResponseListener, errorListener: ErrorListener) {
+fun sendStatistics(app: Context, labels: List<String>, responseListener: ResponseListener, errorListener: ErrorListener) {
     val visits = Visits(labels)
     val json = JSONObject(Gson().toJson(visits))
     sendRequest(app, Request.Method.POST, baseUrl + updateStatistics, json, responseListener, errorListener)

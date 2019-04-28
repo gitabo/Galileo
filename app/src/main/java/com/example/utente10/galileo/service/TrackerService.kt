@@ -102,8 +102,7 @@ class TrackerService : Service() {
         doAsync {
             val realm = Realm.getDefaultInstance()
             val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
-            val labels = ArrayList<String>()
-            lands.forEach { land -> labels.add(land.beacon!!.label!!) }
+            val labels = lands.map { it.beacon!!.label!! }
             if (labels.isNotEmpty()) {
                 sendStatistics(application, labels, object : ResponseListener {
                     override fun onResponse(response: String) {
