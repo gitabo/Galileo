@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:titleTextColor="@color/white"
-        android:background="@color/colorPrimaryDarker"
+        android:background="@color/colorPrimary"
         android:theme="@style/ToolbarColoredBackArrow" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         android:orientation="vertical"
         >
 

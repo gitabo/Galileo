@@ -17,7 +17,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 //request url
-val ipAddress = "http://192.168.1.227:8080/"
+val ipAddress = "http://192.168.1.30:8080/"
 val baseUrl = "${ipAddress}GalileoServer/"
 val getDBVersion = "getDBVersion"
 val getMacroareas = "getMacroareas"

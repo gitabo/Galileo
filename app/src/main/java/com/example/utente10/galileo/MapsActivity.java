@@ -98,8 +98,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 int id = menuItem.getItemId();
                 switch (id) {
                     case R.id.nav_about:
-                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
-                        startActivity(intent);
+                        Intent aboutIntent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(aboutIntent);
+                        break;
+                    case R.id.nav_stats:
+                        Intent statsIntent = new Intent(getApplicationContext(), StatisticsActivity.class);
+                        startActivity(statsIntent);
                         break;
                 }
                 return false;

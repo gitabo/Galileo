@@ -5,5 +5,10 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="About GalileoPisaTour" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_equalizer_black_24dp"
+            android:title="Statistiche visite"
+            />
     </group>
 </menu>
