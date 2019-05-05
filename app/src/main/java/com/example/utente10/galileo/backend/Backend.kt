@@ -11,8 +11,8 @@ import com.google.gson.Gson
 import org.json.JSONObject
 
 //request url
-val ipAddress = "http://192.168.1.30:8080/"
-val baseUrl = "${ipAddress}GalileoServer/"
+val ipAddress = "192.168.1.240"
+val baseUrl = "http://${ipAddress}:8080/GalileoServer/"
 val getDBVersion = "getDBVersion"
 val getMacroareas = "getMacroareas"
 val updateStatistics = "updateStatistics"
