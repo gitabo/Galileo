@@ -101,8 +101,7 @@ class TrackerService : Service() {
         //sending new visited landmarks
         doAsync {
             val realm = Realm.getDefaultInstance()
-            val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
-            val labels = lands.map { it.beacon!!.label!! }
+            val labels = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll().map { it.beacon!!.label!! }
             if (labels.isNotEmpty()) {
                 sendStatistics(application, labels, object : ResponseListener {
                     override fun onResponse(response: String) {
@@ -111,7 +110,7 @@ class TrackerService : Service() {
                             val realm = Realm.getDefaultInstance()
                             val lands = realm.where(Landmark::class.java).equalTo("visited", true).equalTo("sent", false).findAll()
                             realm.beginTransaction()
-                            lands.setBoolean("sent", true)
+                            lands.forEach { it.visited = true}
                             realm.commitTransaction()
                         }
                     }
