@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.utente10.galileo">
+          package="com.example.utente10.galileo">
 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <!--
     only bluetooth low energy
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
-        android:name=".Application"
-        android:allowBackup="true"
-        android:icon="@drawable/logo_app"
-        android:label="@string/app_title"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".StatisticsActivity"></activity>
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".ContentsActivity" />
+            android:name=".Application"
+            android:allowBackup="true"
+            android:icon="@drawable/logo_app"
+            android:label="@string/app_title"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+
+        <activity android:name=".StatisticsActivity"/>
+        <activity android:name=".AboutActivity"/>
+        <activity android:name=".ContentsActivity"/>
 
         <service
-            android:name="com.kontakt.sdk.android.ble.service.ProximityService"
-            android:exported="false" />
+                android:name="com.kontakt.sdk.android.ble.service.ProximityService"
+                android:exported="false"/>
 
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_title"
-            android:screenOrientation="portrait">
+                android:name=".MainActivity"
+                android:label="@string/app_title"
+                android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".MapsActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
 
         <service
-            android:name=".service.TrackerService"
-            android:enabled="true"
-            android:singleUser="true" />
+                android:name=".service.TrackerService"
+                android:enabled="true"
+                android:singleUser="true"/>
 
         <activity
-            android:name=".BeaconMapActivity"
-            android:label="@string/title_activity_beacon_map" />
+                android:name=".BeaconMapActivity"
+                android:label="@string/title_activity_beacon_map"/>
     </application>
 
 </manifest>

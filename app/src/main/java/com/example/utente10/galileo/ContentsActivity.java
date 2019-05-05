@@ -1,5 +1,6 @@
 package com.example.utente10.galileo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,13 +17,13 @@ import com.example.utente10.galileo.bean.Landmark;
 import com.example.utente10.galileo.bean.Macroarea;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class ContentsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private android.support.v7.app.ActionBar actionbar;
     private ProgressBar progressBar;
+    String landmarkLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +32,11 @@ public class ContentsActivity extends AppCompatActivity {
 
         Bundle landmarkData = getIntent().getExtras();
 
-        String landmarkLabel = landmarkData.getString("landmarkLabel");
+        landmarkLabel = landmarkData.getString("landmarkLabel");
 
         // Query landmark selezionata
         Realm realm = Realm.getDefaultInstance();
-        Landmark landmark = realm.where(Landmark.class).equalTo("beacon.label",landmarkLabel).findFirst();
+        Landmark landmark = realm.where(Landmark.class).equalTo("beacon.label", landmarkLabel).findFirst();
 
         if (landmark == null)
             finish();
@@ -47,7 +48,6 @@ public class ContentsActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             actionbar = getSupportActionBar();
             actionbar.setDisplayHomeAsUpEnabled(true);
-
 
             WebView myWebView = (WebView) findViewById(R.id.webview);
             WebSettings settings = myWebView.getSettings();
@@ -113,8 +113,27 @@ public class ContentsActivity extends AppCompatActivity {
 
     }
 
-    public boolean onSupportNavigateUp(){
-        finish();
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Realm realm = Realm.getDefaultInstance();
+            Macroarea macroarea = realm.where(Macroarea.class).contains("landmarks.beacon.label", landmarkLabel).findFirst();
+            if (macroarea != null) {
+                Intent intent = new Intent(getApplicationContext(), BeaconMapActivity.class);
+                intent.putExtra("macroarea", macroarea.getName());
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finishAfterTransition();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
         return true;
     }
 }

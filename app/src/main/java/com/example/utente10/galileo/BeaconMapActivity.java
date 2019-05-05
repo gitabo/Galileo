@@ -121,7 +121,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
-        LinearLayout landmarksList = (LinearLayout)findViewById(R.id.landmarks_list);
+        LinearLayout landmarksList = (LinearLayout) findViewById(R.id.landmarks_list);
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/lato.ttf");
         //Animation onclick scrollview item
@@ -145,14 +145,14 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
                 /*** Add landmark to the ScrollView linearlayout ***/
                 LinearLayout landmarkItem = new LinearLayout(this);
                 float height = getResources().getDimension(R.dimen.scrollview_item);
-                landmarkItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)height));
+                landmarkItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) height));
                 landmarkItem.setGravity(Gravity.CENTER_VERTICAL);
 
                 ImageView placeIcon = new ImageView(this);
                 placeIcon.setImageResource(R.drawable.ic_place_black_24dp);
                 placeIcon.setColorFilter(Color.WHITE);
                 height = getResources().getDimension(R.dimen.scrollview_icon);
-                placeIcon.setLayoutParams(new LinearLayout.LayoutParams((int)height, (int)height));
+                placeIcon.setLayoutParams(new LinearLayout.LayoutParams((int) height, (int) height));
 
                 TextView landmarkText = new TextView(this);
                 landmarkText.setText(l.getName());
@@ -249,6 +249,18 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isTaskRoot()) {
+            Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            finishAfterTransition();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     private void showInformation(Marker marker) {
         // Calcolo spostamento mappa per centrare l'infowindow
         RelativeLayout mapContainer = (RelativeLayout) findViewById(R.id.mapcontainer);
@@ -272,7 +284,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     //Termina l'activity premendo il tasto indietro nella tooolbar
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        onBackPressed();
         return true;
     }
 }
