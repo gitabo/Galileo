@@ -143,7 +143,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             builder.include(pos);
 
             //Show area around macroarea marker
-            Circle circle = mMap.addCircle(new CircleOptions()
+            mMap.addCircle(new CircleOptions()
                     .center(pos)
                     .radius(m.getRadius())
                     .strokeColor(Color.RED)
@@ -157,7 +157,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             int padding = 80; // offset from edges of the map in pixels need to be different from zero
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
             googleMap.setOnMapLoadedCallback(() -> googleMap.moveCamera(cu));
-        } else {
+        } else if (i > 0) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 14.0f));
         }
 
