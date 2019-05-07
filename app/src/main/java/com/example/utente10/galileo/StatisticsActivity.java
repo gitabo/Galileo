@@ -31,7 +31,7 @@ public class StatisticsActivity extends AppCompatActivity {
     //Termina l'activity premendo il tasto indietro nella tooolbar
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        onBackPressed();
         return true;
     }
 }
