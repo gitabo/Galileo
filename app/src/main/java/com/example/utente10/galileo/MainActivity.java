@@ -25,11 +25,6 @@ import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 
-    //    private Toolbar toolbar;
-//    private ActionBarDrawerToggle mDrawerToggle;
-//    private DrawerLayout mDrawerLayout;
-//    private android.support.v7.app.ActionBar actionbar;
-
     Intent mServiceIntent;
     private static final int FINE_LOCATION_REQUEST = 1;
     private TrackerService tracker;
@@ -41,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Realm realm = Realm.getDefaultInstance();
+
 
         BackendKt.getDBVersion(getApplication(), response -> {
                     Gson gson = new Gson();
@@ -66,28 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         requestPermission();
-
-//        toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        actionbar = getSupportActionBar();
-//
-//        //Mostra pulsante menu in alto a sinistra
-//        actionbar.setDisplayHomeAsUpEnabled(true);
-//
-//        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-//        setupDrawer();
-
-//        Button btnAvvia = (Button)findViewById(R.id.btn_avvia);
-//
-//        btnAvvia.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // TODO Auto-generated method stub
-//                Intent i = new Intent(getApplicationContext(),MapsActivity.class);
-//                startActivity(i);
-//            }
-//        });
 
     }
 
@@ -156,59 +130,5 @@ public class MainActivity extends AppCompatActivity {
                 }
         return false;
     }
-
-    /*** Gestione apertura menu ***/
-//    private void setupDrawer() {
-//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
-//
-//            /** Called when a drawer has settled in a completely open state. */
-//            public void onDrawerOpened(View drawerView) {
-//                super.onDrawerOpened(drawerView);
-//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-//            }
-//
-//            /** Called when a drawer has settled in a completely closed state. */
-//            public void onDrawerClosed(View view) {
-//                super.onDrawerClosed(view);
-//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-//            }
-//        };
-//
-//        mDrawerToggle.setDrawerIndicatorEnabled(true);
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//    }
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//       /* if (id == R.id.action_settings) {
-//            return true;
-//        }*/
-//
-//        // Activate the navigation drawer toggle
-//        if (mDrawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        mDrawerToggle.syncState();
-//    }
-//
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        mDrawerToggle.onConfigurationChanged(newConfig);
-//    }
 
 }

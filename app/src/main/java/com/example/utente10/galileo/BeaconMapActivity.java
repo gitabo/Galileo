@@ -19,10 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,10 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
     private String areaName;
     private Landmark landmark;
     private float density;
+    ListView landmarksList;
+    List<Marker> markers = new ArrayList<Marker>();
+    ArrayList<String> listItems = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +128,7 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
         // Query macroarea selezionata
         Macroarea macroarea = realm.where(Macroarea.class).equalTo("name", areaName).findFirst();
 
-        LinearLayout landmarksList = (LinearLayout) findViewById(R.id.landmarks_list);
-
-        Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/lato.ttf");
-        //Animation onclick scrollview item
-        TypedValue outValue = new TypedValue();
-        this.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-        //
+        landmarksList = (ListView) findViewById(R.id.landmarks_list);
 
         mMap.setOnMapLoadedCallback(() -> {
             int i = 0;
@@ -138,50 +139,30 @@ public class BeaconMapActivity extends AppCompatActivity implements OnMapReadyCa
             for (Landmark l : macroarea.getLandmarks()) {
                 //Add marker to the map
                 pos = new LatLng(l.getBeacon().getCoordinates().getLatitude(), l.getBeacon().getCoordinates().getLongitude());
-                Marker marker = mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker)));
+                markers.add(mMap.addMarker(new MarkerOptions().title(l.getName()).position(pos).icon(BitmapDescriptorFactory.fromResource(R.drawable.galileo_marker))));
                 builder.include(pos);
                 //
 
-                /*** Add landmark to the ScrollView linearlayout ***/
-                LinearLayout landmarkItem = new LinearLayout(this);
-                float height = getResources().getDimension(R.dimen.scrollview_item);
-                landmarkItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) height));
-                landmarkItem.setGravity(Gravity.CENTER_VERTICAL);
-
-                ImageView placeIcon = new ImageView(this);
-                placeIcon.setImageResource(R.drawable.ic_place_black_24dp);
-                placeIcon.setColorFilter(Color.WHITE);
-                height = getResources().getDimension(R.dimen.scrollview_icon);
-                placeIcon.setLayoutParams(new LinearLayout.LayoutParams((int) height, (int) height));
-
-                TextView landmarkText = new TextView(this);
-                landmarkText.setText(l.getName());
-                landmarkText.setTextColor(Color.WHITE);
-                landmarkText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-                landmarkText.setTypeface(tf);
-                landmarkText.setGravity(Gravity.CENTER_VERTICAL);
-                landmarkText.setForegroundGravity(Gravity.CENTER_VERTICAL);
-                landmarkItem.setOrientation(LinearLayout.HORIZONTAL);
-                landmarkItem.addView(placeIcon);
-                landmarkItem.addView(landmarkText);
-                landmarkItem.setBackgroundResource(outValue.resourceId);
-                landmarkItem.setClickable(true);
-                landmarkItem.setFocusable(true);
-                landmarksList.addView(landmarkItem);
-                /***/
-
-                //Focus on the marker when user selects a landmark from the list
-                landmarkItem.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_clicked));
-                        showInformation(marker);
-                    }
-                });
+                //Add landmark to the ListView
+                listItems.add(l.getName());
                 //
 
                 i++;
             }
+
+            adapter = new ArrayAdapter<String>(this, R.layout.list_row, R.id.list_content, listItems);
+            landmarksList.setAdapter(adapter);
+
+            landmarksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+                    markers.get(position).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.marker_clicked));
+                    showInformation(markers.get(position));
+                }
+            });
+
+
+
             if (i < 2)
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, 17.0f));
             else {

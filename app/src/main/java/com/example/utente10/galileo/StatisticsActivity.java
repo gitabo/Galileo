@@ -25,7 +25,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         WebView myWebView = (WebView) findViewById(R.id.stats_webview);
         myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        myWebView.loadUrl("http://192.168.1.30:8080/GalileoServer/statistics");
+        myWebView.loadUrl("http://192.168.1.107:8080/GalileoServer/statistics");
     }
 
     //Termina l'activity premendo il tasto indietro nella tooolbar

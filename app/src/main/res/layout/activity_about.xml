@@ -25,6 +25,7 @@
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:contentDescription="@string/app_title"
             android:src="@drawable/logo"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
@@ -51,7 +52,7 @@
             android:text="@string/about"
             android:fontFamily="@font/lato"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:scrollbars="vertical"/>
 
 

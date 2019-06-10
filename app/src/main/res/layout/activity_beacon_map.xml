@@ -37,22 +37,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2">
-            <ScrollView
+            <ListView
+                android:id="@+id/landmarks_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorPrimary"
                 android:fadeScrollbars="false"
-                android:scrollbarThumbVertical="@color/colorPrimaryDark"
-                >
-                <LinearLayout
-                    android:id="@+id/landmarks_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                />
 
-                </LinearLayout>
-            </ScrollView>
         </RelativeLayout>
 
     </LinearLayout>
